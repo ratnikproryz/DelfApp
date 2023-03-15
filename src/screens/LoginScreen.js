@@ -1,102 +1,159 @@
-import React, { useState } from 'react'
-import { View, Text, StyleSheet, TextInput, Button, Image } from 'react-native'
-import ScreenHeight from '../Common'
-import InputComponent from '../components/InputComponent'
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  Dimensions,
+} from 'react-native';
+import {ScreenHeight, ScreenWidth} from '../Common';
+import InputComponent from '../components/InputComponent';
+import {GREEN, GREY, LIGHT_GREY} from '../constants/color';
 
 export default function LoginScreen() {
-    const [isLogin, setIsLogin] = useState(true)
-
-
-    function googleBar() {
-        return (
-            <View style={styles.googleSection}>
-                <View style={Object.assign({ marginBottom: 5 }, styles.googleBar)}>
-                    <View style={styles.img}>
-                        <Image source={require('../assets/google.png')} />
-                    </View>
-                    <View style={Object.assign({ width: 200 }, styles.centerContainer)}>
-                        <Text style={styles.text}>Login with Google</Text>
-                    </View>
-                </View>
-                <Text style={styles.text} onPress={() => setIsLogin(!isLogin)}>
-                    {isLogin ? " Don't have an account? Sign Up" : 'Already have an account! Login'}
-                </Text>
-            </View>
-        )
-    }
+  const [isLogin, setIsLogin] = useState(true);
+  const [isSignUp, setIsSignUp] = useState(false);
+  function googleButton() {
     return (
-        <View style={styles.body}>
-            <View style={Object.assign({}, styles.logoSection, styles.centerContainer)}>
-                <Text style={styles.appName}>DELF PRACTICE</Text>
+      <View
+        style={{
+          flex: 1.5,
+          justifyContent: 'space-around',
+          // backgroundColor: '#234',
+        }}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.loginText}>Login</Text>
+        </TouchableOpacity>
+        <Text style={{color: GREY, alignSelf: 'center'}}>OR</Text>
+        <TouchableOpacity style={styles.googleButton}>
+          <Image
+            source={require('../assets/icons/google.png')}
+            style={styles.googleIcon}
+          />
+          <Text style={styles.googleText}>Login with Google</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
-            </View>
-            {isLogin ?
-                <View style={styles.centerContainer}>
-                    <InputComponent icon="at" placeholder='Enter your email!' />
-                    <InputComponent icon="lock" placeholder='Enter your password!' isPassword={true} />
-                    <Button title='Login' style={styles.button} />
-                    {googleBar()}
-                </View>
-                :
-                <View style={styles.centerContainer}>
-                    <InputComponent icon="user" placeholder='Enter your name!' />
-                    <InputComponent icon="at" placeholder='Enter your email!' />
-                    <InputComponent icon="lock" placeholder='Enter your password!' isPassword={true} />
-                    <InputComponent icon="lock" placeholder='Confirm your password!' isPassword={true} />
-                    <Button title='Sign up' style={styles.button} />
-                    {googleBar()}
-                </View>
-            }
+  function loginForm() {
+    return (
+      <View style={styles.loginContainer}>
+        <Text style={styles.loginLabel}>Login</Text>
+        <InputComponent icon="at" placeholder="Email" />
+        <InputComponent icon="lock" placeholder="Password" isPassword={true} />
+        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+      </View>
+    );
+  }
+  return (
+    <View style={styles.container}>
+      <View style={styles.logoSection}>
+        <Image
+          source={require('../assets/images/login.png')}
+          style={styles.loginImage}
+        />
+      </View>
+      {!isSignUp ? (
+        <View style={styles.centerContainer}>
+          {loginForm()}
+          {googleButton()}
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              // backgroundColor: '#234',
+            }}>
+            <TouchableOpacity
+              style={styles.text}
+              onPress={() => setIsSignUp(!isSignUp)}>
+              <Text>Don't have an account?</Text>
+              <Text style={{color: GREEN, marginLeft: 3}}>Sign up</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-    )
+      ) : (
+        <View style={styles.centerContainer}>{googleButton()}</View>
+      )}
+    </View>
+  );
 }
 const styles = StyleSheet.create({
-    body: {
-        backgroundColor: '#19C5AF',
-        height: ScreenHeight,
-    },
-    centerContainer: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    button: {
-    },
-    googleSection: {
-        position: 'absolute',
-        width: 250,
-        height: 50,
-        top: 0.4 * ScreenHeight,
-        alignItems: 'center',
-    },
-    googleBar: {
-        backgroundColor: '#438AFE',
-        borderRadius: 5,
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    text: {
-        color: '#ffffff',
-        fontSize: 16,
-        fontWeight: '700',
-    },
-    img: {
-        width: 50,
-        height: 50,
-        borderRadius: 5,
-        backgroundColor: "#ffffff",
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    logoSection: {
-        paddingTop: 0.3*ScreenHeight,
-        paddingBottom: 20,
-    },
-    appName: {
-        fontSize: 30,
-        color: '#ffffff',
-        fontWeight: '700',
-    }
-})
+  container: {
+    backgroundColor: '#FFF',
+    flex: 1,
+  },
+  centerContainer: {
+    flex: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    backgroundColor: GREEN,
+    borderRadius: 15,
+    marginVertical: 10,
+    height: ScreenHeight / 18,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  googleButton: {
+    width: ScreenWidth * 0.85,
+    backgroundColor: LIGHT_GREY,
+    borderRadius: 15,
+    marginVertical: 10,
+    height: ScreenHeight / 18,
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+  },
+  googleIcon: {
+    height: '80%',
+    flex: 0.1,
+    resizeMode: 'contain',
+  },
+  googleText: {
+    flex: 0.6,
+    fontSize: 16,
+    color: '#000',
+  },
+  loginImage: {
+    height: '95%',
+    width: '95%',
+    resizeMode: 'contain',
+  },
+  forgotPasswordText: {
+    alignSelf: 'flex-end',
+    marginVertical: 10,
+    color: GREEN,
+  },
+  loginText: {
+    color: '#FFF',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  textGoogle: {
+    color: '#000',
+    fontSize: 16,
+  },
+  loginLabel: {
+    color: '#000',
+    fontSize: 32,
+    fontWeight: 'bold',
+  },
+  logoSection: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loginContainer: {
+    flex: 2,
+    justifyContent: 'space-around',
+    width: ScreenWidth * 0.85,
+    // backgroundColor: '#999',
+  },
+  text: {
+    flexDirection: 'row',
+  },
+});
