@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  StatusBar,
 } from 'react-native';
 import {ScreenHeight, ScreenWidth} from '../Common';
 import InputComponent from '../components/InputComponent';
@@ -44,12 +45,15 @@ export default function LoginScreen() {
         <Text style={styles.loginLabel}>Login</Text>
         <InputComponent icon="at" placeholder="Email" />
         <InputComponent icon="lock" placeholder="Password" isPassword={true} />
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+        <TouchableOpacity>
+          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+        </TouchableOpacity>
       </View>
     );
   }
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor="#FFF" barStyle="dark-content" />
       <View style={styles.logoSection}>
         <Image
           source={require('../assets/images/login.png')}
@@ -64,7 +68,6 @@ export default function LoginScreen() {
             style={{
               flex: 1,
               justifyContent: 'center',
-              // backgroundColor: '#234',
             }}>
             <TouchableOpacity
               style={styles.text}
@@ -84,6 +87,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFF',
     flex: 1,
+    minHeight: ScreenHeight,
   },
   centerContainer: {
     flex: 2,
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
     backgroundColor: GREEN,
     borderRadius: 15,
     marginVertical: 10,
-    height: ScreenHeight / 18,
+    height: (ScreenWidth * 0.85) / 7.3,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -103,7 +107,7 @@ const styles = StyleSheet.create({
     backgroundColor: LIGHT_GREY,
     borderRadius: 15,
     marginVertical: 10,
-    height: ScreenHeight / 18,
+    height: (ScreenWidth * 0.85) / 7.3,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
@@ -151,7 +155,6 @@ const styles = StyleSheet.create({
     flex: 2,
     justifyContent: 'space-around',
     width: ScreenWidth * 0.85,
-    // backgroundColor: '#999',
   },
   text: {
     flexDirection: 'row',

@@ -20,21 +20,29 @@ export default function InputComponent(props) {
   return (
     <View style={styles.body}>
       <Icon name={props.icon} style={styles.icon} size={16} color="#7E7E7E" />
-      <TextInput
-        style={styles.input}
-        placeholder={props.placeholder}
-        secureTextEntry={!passwordVisibility}
-        onChangeText={text => changeTextHander(text)}
-      />
       {props.isPassword ? (
-        <Icon
-          name={eyeIcon}
-          onPress={() => showPassword()}
-          style={Object.assign({paddingRight: 10}, styles.icon)}
-          size={16}
-          color="#7E7E7E"
+        <>
+          <TextInput
+            style={styles.input}
+            placeholder={props.placeholder}
+            secureTextEntry={!passwordVisibility}
+            onChangeText={text => changeTextHander(text)}
+          />
+          <Icon
+            name={eyeIcon}
+            onPress={() => showPassword()}
+            style={Object.assign({paddingRight: 10}, styles.icon)}
+            size={16}
+            color="#7E7E7E"
+          />
+        </>
+      ) : (
+        <TextInput
+          style={styles.input}
+          placeholder={props.placeholder}
+          onChangeText={text => changeTextHander(text)}
         />
-      ) : null}
+      )}
     </View>
   );
 }
