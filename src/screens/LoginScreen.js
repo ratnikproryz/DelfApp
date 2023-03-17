@@ -1,10 +1,34 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, TextInput, Button, Image } from 'react-native'
-import ScreenHeight from '../Common'
+import { ScreenHeight } from '../constants/Common'
 import InputComponent from '../components/InputComponent'
+import InputPasswordCmp from '../components/InputPasswordCmp'
+import { login } from '../api/AuthAPI'
 
 export default function LoginScreen() {
     const [isLogin, setIsLogin] = useState(true)
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+
+    const loginHandler = () => {
+        console.log("email: " + email)
+        console.log('password: ' + password)
+        login(email, password)
+
+    }
+    const signUpHandler = () => {
+        if (password != confirmPassword) {
+            console.log('false')
+        } else {
+            console.log('true')
+        }
+        console.log('name: ' + name)
+        console.log("email: " + email)
+        console.log('password: ' + password)
+        console.log('confirmPassword: ' + confirmPassword)
+    }
 
 
     function googleBar() {
@@ -32,18 +56,18 @@ export default function LoginScreen() {
             </View>
             {isLogin ?
                 <View style={styles.centerContainer}>
-                    <InputComponent icon="at" placeholder='Enter your email!' />
-                    <InputComponent icon="lock" placeholder='Enter your password!' isPassword={true} />
-                    <Button title='Login' style={styles.button} />
+                    <InputComponent icon="at" placeholder='Enter your email!' onChangeText={setEmail} />
+                    <InputPasswordCmp icon="lock" placeholder='Enter your password!' onChangeText={setPassword} />
+                    <Button title='Login' style={styles.button} onPress={() => loginHandler()} />
                     {googleBar()}
                 </View>
                 :
                 <View style={styles.centerContainer}>
-                    <InputComponent icon="user" placeholder='Enter your name!' />
-                    <InputComponent icon="at" placeholder='Enter your email!' />
-                    <InputComponent icon="lock" placeholder='Enter your password!' isPassword={true} />
-                    <InputComponent icon="lock" placeholder='Confirm your password!' isPassword={true} />
-                    <Button title='Sign up' style={styles.button} />
+                    <InputComponent icon="user" placeholder='Enter your name!' onChangeText={setName} />
+                    <InputComponent icon="at" placeholder='Enter your email!' onChangeText={setEmail} />
+                    <InputPasswordCmp icon="lock" placeholder='Enter password!' onChangeText={setPassword} />
+                    <InputPasswordCmp icon="lock" placeholder='Confirm password!' onChangeText={setConfirmPassword} />
+                    <Button title='Sign up' style={styles.button} onPress={() => signUpHandler()} />
                     {googleBar()}
                 </View>
             }
@@ -91,7 +115,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     logoSection: {
-        paddingTop: 0.3*ScreenHeight,
+        paddingTop: 0.3 * ScreenHeight,
         paddingBottom: 20,
     },
     appName: {
