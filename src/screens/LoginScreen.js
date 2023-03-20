@@ -18,24 +18,13 @@ export default function LoginScreen() {
   const [isSignUp, setIsSignUp] = useState(false);
   function googleButton() {
     return (
-      <View
-        style={{
-          flex: 1.5,
-          justifyContent: 'space-around',
-          // backgroundColor: '#234',
-        }}>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.loginText}>Login</Text>
-        </TouchableOpacity>
-        <Text style={{color: GREY, alignSelf: 'center'}}>OR</Text>
-        <TouchableOpacity style={styles.googleButton}>
-          <Image
-            source={require('../assets/icons/google.png')}
-            style={styles.googleIcon}
-          />
-          <Text style={styles.googleText}>Login with Google</Text>
-        </TouchableOpacity>
-      </View>
+      <TouchableOpacity style={styles.googleButton}>
+        <Image
+          source={require('../assets/icons/google.png')}
+          style={styles.googleIcon}
+        />
+        <Text style={styles.googleText}>Login with Google</Text>
+      </TouchableOpacity>
     );
   }
 
@@ -51,6 +40,22 @@ export default function LoginScreen() {
       </View>
     );
   }
+
+  function signUpForm() {
+    return (
+      <View style={styles.loginContainer}>
+        <Text style={styles.loginLabel}>Sign up</Text>
+        <InputComponent icon="at" placeholder="Email" />
+        <InputComponent icon="at" placeholder="Username" />
+        <InputComponent icon="lock" placeholder="Password" isPassword={true} />
+        <InputComponent
+          icon="lock"
+          placeholder="Confirm password"
+          isPassword={true}
+        />
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <StatusBar backgroundColor="#FFF" barStyle="dark-content" />
@@ -63,7 +68,17 @@ export default function LoginScreen() {
       {!isSignUp ? (
         <View style={styles.centerContainer}>
           {loginForm()}
-          {googleButton()}
+          <View
+            style={{
+              flex: 1.5,
+              justifyContent: 'space-around',
+            }}>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.loginText}>Login</Text>
+            </TouchableOpacity>
+            <Text style={{color: GREY, alignSelf: 'center'}}>OR</Text>
+            {googleButton()}
+          </View>
           <View
             style={{
               flex: 1,
@@ -78,7 +93,32 @@ export default function LoginScreen() {
           </View>
         </View>
       ) : (
-        <View style={styles.centerContainer}>{googleButton()}</View>
+        <View style={styles.centerContainer}>
+          {signUpForm()}
+          <View
+            style={{
+              flex: 1.5,
+              justifyContent: 'space-around',
+            }}>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.loginText}>Sign up</Text>
+            </TouchableOpacity>
+            <Text style={{color: GREY, alignSelf: 'center'}}>OR</Text>
+            {googleButton()}
+          </View>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+            }}>
+            <TouchableOpacity
+              style={styles.text}
+              onPress={() => setIsSignUp(!isSignUp)}>
+              <Text>Already have an account?</Text>
+              <Text style={{color: GREEN, marginLeft: 3}}>Login</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       )}
     </View>
   );
