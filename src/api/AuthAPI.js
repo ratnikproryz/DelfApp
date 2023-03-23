@@ -1,38 +1,27 @@
+import axios from "axios";
 import { BaseURL } from "../constants/Common";
+import { Toast, ALERT_TYPE } from 'react-native-alert-notification';
 
-export const login = (email, password) => {
-    axios.post(`${BaseURL}/login`, {
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': `multipart/form-data`,
-        },
-        data: {
+export const signUp = async (name, email, password, passwordConfirm) => {
+    try {
+        const response = await axios.post(`${BaseURL}/users/signup`, {
+            name: name,
             email: email,
             password: password,
-        }
-    })
-        .then(response => {
-            console.log(response)
+            passwordConfirm: passwordConfirm
         })
-        .catch(error => {
-            console.log('error: ', error.message);
-        });
-}
-
-export const signUp = (email, password) => {
-    axios.post(`${BaseURL}/signup`, {
-        headers: {
-            Accept: 'application/json',
-            'Content-Type': `multipart/form-data`,
-        },
-        data: {
-
-        }
-    })
-        .then(response => {
-            console.log(response)
+        console.log(response.data);
+        Toast.show({
+            type: ALERT_TYPE.SUCCESS,
+            title: 'Success',
+            textBody: 'Create account successfully',
         })
-        .catch(error => {
-            console.log('error: ', error.message);
-        });
+    } catch (error) {
+        console.log("error: " + error);
+        Toast.show({
+            type: ALERT_TYPE.DANGER,
+            title: 'Error',
+            textBody: 'Please check the credentials and try again!',
+        })
+    }
 }

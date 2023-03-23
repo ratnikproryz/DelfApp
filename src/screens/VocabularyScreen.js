@@ -6,14 +6,16 @@ import { GREEN } from '../constants/color';
 export default function VocabularyScreen() {
   return (
     <View style={[styles.body]}>
-      <View style={styles.center}>
+      <View style={[styles.card, styles.center]}>
         <Image source={require('../assets/images/bonjour.png')} ></Image>
         <Text style={styles.word}>bonjour</Text>
         <Text style={styles.description}>Souhait de bonne journée (adressé en arrivant, en rencontrant).</Text>
         <TouchableHighlight style={styles.volume}>
           <Icon name='volume-up' size={20} color={'#fff'}></Icon>
         </TouchableHighlight>
-        <View style={{ flexDirection: 'row', justifyContent:'space-between', width: '100%' }}>
+      </View>
+      <View style={styles.center}>
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '70%', paddingBottom: 20 }}>
           <TouchableHighlight >
             <Icon name='chevron-left' size={32} color={GREEN} ></Icon>
           </TouchableHighlight>
@@ -21,8 +23,8 @@ export default function VocabularyScreen() {
             <Icon name='chevron-right' size={32} color={GREEN}></Icon>
           </TouchableHighlight>
         </View>
-        <TouchableOpacity>
-
+        <TouchableOpacity style={[styles.playButton, styles.center]}>
+          <Text style={{ color: '#ffffff', fontSize: 16, fontWeight: '700' }}>PLAY A VOCAB GAME</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -65,5 +67,14 @@ const styles = StyleSheet.create({
   center: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  playButton: {
+    borderRadius: 50,
+    backgroundColor: GREEN,
+    width: '70%',
+    height: 40,
+  },
+  card: {
+    height: '80%',
   }
 });
