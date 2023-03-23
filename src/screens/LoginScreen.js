@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -9,13 +9,29 @@ import {
   Dimensions,
   StatusBar,
 } from 'react-native';
-import {ScreenHeight, ScreenWidth} from '../Common';
+import { Toast, ALERT_TYPE, AlertNotificationRoot } from 'react-native-alert-notification';
+import { useDispatch } from 'react-redux';
+import { signUp } from '../api/AuthAPI';
+import { ScreenHeight, ScreenWidth } from '../Common';
 import InputComponent from '../components/InputComponent';
-import {GREEN, GREY, LIGHT_GREY} from '../constants/color';
+import { GREEN, GREY, LIGHT_GREY } from '../constants/color';
+import { login } from '../redux/actions/AuthAction';
 
 export default function LoginScreen() {
-  const [isLogin, setIsLogin] = useState(true);
+  const dispatch = useDispatch()
   const [isSignUp, setIsSignUp] = useState(false);
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [passwordConfirm, setPassordConfirm] = useState("")
+
+  const loginHandler = () => {
+    dispatch(login(email, password))
+  }
+  const signUpHandler = () => {
+    signUp(name, email, password, passwordConfirm)
+  }
+
   function googleButton() {
     return (
       <TouchableOpacity style={styles.googleButton}>
@@ -32,8 +48,8 @@ export default function LoginScreen() {
     return (
       <View style={styles.loginContainer}>
         <Text style={styles.loginLabel}>Login</Text>
-        <InputComponent icon="at" placeholder="Email" />
-        <InputComponent icon="lock" placeholder="Password" isPassword={true} />
+        <InputComponent icon="at" value={email} placeholder="Email" onChangeText={setEmail} />
+        <InputComponent icon="lock" value={password} placeholder="Password" isPassword={true} onChangeText={setPassword} />
         <TouchableOpacity>
           <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
         </TouchableOpacity>
@@ -45,82 +61,65 @@ export default function LoginScreen() {
     return (
       <View style={styles.loginContainer}>
         <Text style={styles.loginLabel}>Sign up</Text>
-        <InputComponent icon="at" placeholder="Email" />
-        <InputComponent icon="at" placeholder="Username" />
-        <InputComponent icon="lock" placeholder="Password" isPassword={true} />
+        <InputComponent icon="at" value={email} placeholder="Email" onChangeText={setEmail} />
+        <InputComponent icon="at" value={name} placeholder="Username" onChangeText={setName} />
+        <InputComponent icon="lock" value={password} placeholder="Password" isPassword={true} onChangeText={setPassword} />
         <InputComponent
           icon="lock"
+          value={passwordConfirm}
           placeholder="Confirm password"
           isPassword={true}
+          onChangeText={setPassordConfirm}
         />
       </View>
     );
   }
   return (
-    <View style={styles.container}>
-      <StatusBar backgroundColor="#FFF" barStyle="dark-content" />
-      <View style={styles.logoSection}>
-        <Image
-          source={require('../assets/images/login.png')}
-          style={styles.loginImage}
-        />
+    <AlertNotificationRoot theme='light' colors={[{ 'card': '#F0F0F0', }, { 'card': '#000', 'label': '#fff' }]}>
+      <View style={styles.container}>
+        <StatusBar backgroundColor="#FFF" barStyle="dark-content" />
+        <View style={styles.logoSection}>
+          <Image source={require('../assets/images/login.png')} style={styles.loginImage}
+          />
+        </View>
+        {!isSignUp ? (
+          <View style={styles.centerContainer}>
+            {loginForm()}
+            <View style={{ flex: 1.5, justifyContent: 'space-around', }}>
+              <TouchableOpacity style={styles.button} onPress={() => loginHandler()}>
+                <Text style={styles.loginText}>Login</Text>
+              </TouchableOpacity>
+              <Text style={{ color: GREY, alignSelf: 'center' }}>OR</Text>
+              {googleButton()}
+            </View>
+            <View style={{ flex: 1, justifyContent: 'center', }}>
+              <TouchableOpacity style={styles.text} onPress={() => setIsSignUp(!isSignUp)}>
+                <Text>Don't have an account?</Text>
+                <Text style={{ color: GREEN, marginLeft: 3 }}>Sign up</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : (
+          <View style={styles.centerContainer}>
+            {signUpForm()}
+            <View style={{ flex: 1.5, justifyContent: 'space-around', }}>
+              <TouchableOpacity style={styles.button} onPress={() => signUpHandler()}>
+                <Text style={styles.loginText}>Sign up</Text>
+              </TouchableOpacity>
+              <Text style={{ color: GREY, alignSelf: 'center' }}>OR</Text>
+              {googleButton()}
+            </View>
+            <View style={{ flex: 1, justifyContent: 'center', }}>
+              <TouchableOpacity style={styles.text} onPress={() => setIsSignUp(!isSignUp)}>
+                <Text>Already have an account?</Text>
+                <Text style={{ color: GREEN, marginLeft: 3 }}>Login</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
       </View>
-      {!isSignUp ? (
-        <View style={styles.centerContainer}>
-          {loginForm()}
-          <View
-            style={{
-              flex: 1.5,
-              justifyContent: 'space-around',
-            }}>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.loginText}>Login</Text>
-            </TouchableOpacity>
-            <Text style={{color: GREY, alignSelf: 'center'}}>OR</Text>
-            {googleButton()}
-          </View>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-            }}>
-            <TouchableOpacity
-              style={styles.text}
-              onPress={() => setIsSignUp(!isSignUp)}>
-              <Text>Don't have an account?</Text>
-              <Text style={{color: GREEN, marginLeft: 3}}>Sign up</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      ) : (
-        <View style={styles.centerContainer}>
-          {signUpForm()}
-          <View
-            style={{
-              flex: 1.5,
-              justifyContent: 'space-around',
-            }}>
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.loginText}>Sign up</Text>
-            </TouchableOpacity>
-            <Text style={{color: GREY, alignSelf: 'center'}}>OR</Text>
-            {googleButton()}
-          </View>
-          <View
-            style={{
-              flex: 1,
-              justifyContent: 'center',
-            }}>
-            <TouchableOpacity
-              style={styles.text}
-              onPress={() => setIsSignUp(!isSignUp)}>
-              <Text>Already have an account?</Text>
-              <Text style={{color: GREEN, marginLeft: 3}}>Login</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
-    </View>
+    </AlertNotificationRoot>
+
   );
 }
 const styles = StyleSheet.create({
