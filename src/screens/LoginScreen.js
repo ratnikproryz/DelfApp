@@ -9,7 +9,7 @@ import {
   Dimensions,
   StatusBar,
 } from 'react-native';
-import { Toast, ALERT_TYPE, AlertNotificationRoot } from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { useDispatch } from 'react-redux';
 import { signUp } from '../api/AuthAPI';
 import { ScreenHeight, ScreenWidth } from '../Common';

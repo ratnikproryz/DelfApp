@@ -1,19 +1,29 @@
 import React from 'react'
+import { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
+import { getDicExamples, lookUp } from '../api/TransAPI';
 import Card from '../components/Card';
 import InputComponent from '../components/InputComponent'
+import SearchComponet from '../components/SearchComponet';
 import { BLACK, GREEN, GREY } from '../constants/color';
 
 
 export default function HomeScreen() {
+  const [word, setWord] = useState('')
+  const search = async () => {
+    console.log(word);
+    const response = await getDicExamples(word)
+    console.log(response.lookUp);
+    console.log(response.exapmle);
+  }
+
   return (
     <ScrollView>
       <View style={style.body}>
         <View style={style.container}>
           <Text style={style.title}>Delf Practice</Text>
           <Text style={style.description}>Parlez-vous français? Practice anytime, anywhere with our app!</Text>
-          <InputComponent icon='search' placeholder="Search Vocabulary" />
+          <SearchComponet icon='search' placeholder="Search Vocabulary" onChangeText={setWord} onPress={search} />
           <View style={style.section}>
             <Text style={style.sectionTitle}>DELF Practice</Text>
             <View style={style.sectionBody}>

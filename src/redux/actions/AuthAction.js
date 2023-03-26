@@ -4,6 +4,8 @@ import { BaseURL } from '../../constants/Common';
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';
+export const AUTO_LOGIN = 'AUTO_LOGIN';
+export const GET_AUTH = 'GET_AUTH';
 
 export const login = (email, password) => async dispatch => {
     try {
@@ -23,19 +25,35 @@ export const login = (email, password) => async dispatch => {
     }
 }
 
-// export const signUp = (name, email, password, passwordConfirm) => async dispatch => {
-//     try {
-//         const response = await axios.post(`${BaseURL}/users/signup`,{
-//             name: name,
-//             email: email,
-//             password: password,
-//             passwordConfirm: passwordConfirm
-//         })
-//         console.log(response.data);
-//         dispatch({
+export const autoLogin = (token) => dispatch => {
+    dispatch({
+        type: AUTO_LOGIN,
+        payload: token,
+    });
+}
 
-//         })
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+export const logout = (token) => async dispatch => {
+    dispatch({
+        type: LOGOUT,
+        payload: '',
+    });
+}
+
+export const getAuth = (token) => async dispatch => {
+    try {
+        const response = await axios.post(`${BaseURL}/users/auth`, {
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            }
+        })
+        dispatch({
+            type: GET_AUTH,
+            payload: response.data.data.user
+        });
+    } catch (error) {
+        console.error(error.message);
+
+    }
+}
