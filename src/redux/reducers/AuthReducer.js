@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LOGIN } from '../actions/AuthAction';
+import { AUTO_LOGIN, GET_AUTH, LOGIN, LOGOUT } from '../actions/AuthAction';
 
 
 const initialState = {
@@ -18,6 +18,25 @@ export default function AuthReducer(state = initialState, action) {
                 token: action.payload.token,
                 isAuth: true,
             };
+        case AUTO_LOGIN:
+            return {
+                ...state,
+                token: action.payload,
+                isAuth: true,
+            }
+        case LOGOUT:
+            AsyncStorage.removeItem('@authToken');
+            return {
+                ...state,
+                user: '',
+                token: '',
+                isAuth: false,
+            };
+        case GET_AUTH:
+            return {
+                ...state,
+                user: action.payload
+            }
         default:
             return state;
     }

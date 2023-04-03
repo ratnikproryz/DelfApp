@@ -1,52 +1,80 @@
 import React from 'react'
+import { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient'
+import { getDicExamples, lookUp } from '../api/TransAPI';
 import Card from '../components/Card';
-import InputComponent from '../components/InputComponent'
-import { BLACK, GREEN, GREY } from '../constants/color';
+import SearchComponet from '../components/SearchComponet';
+import { GREY } from '../constants/color';
+import { AlertNotificationRoot, Toast, ALERT_TYPE } from 'react-native-alert-notification';
 
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
+  const [word, setWord] = useState('')
+  const search = async () => {
+    try {
+      if (!word) return;
+      console.log(word);
+      const response = await lookUp(word)
+      let meaning = response.translations.reduce((result, current) => result + ", " + current.normalizedTarget, "")
+      meaning = meaning.substring(2, meaning.length); // remove ", "
+      navigation.navigate('Word', {
+        'word': response.normalizedSource,
+        'wordType': response.translations[0].posTag,
+        'meaning': meaning,
+      })
+    } catch (error) {
+      console.log(error);
+      Toast.show({
+        type: ALERT_TYPE.DANGER,
+        title: 'Error',
+        textBody: `Can't look up ${word} in dictionary!`,
+      })
+    }
+  }
+
   return (
-    <ScrollView>
-      <View style={style.body}>
-        <View style={style.container}>
-          <Text style={style.title}>Delf Practice</Text>
-          <Text style={style.description}>Parlez-vous français? Practice anytime, anywhere with our app!</Text>
-          <InputComponent icon='search' placeholder="Search Vocabulary" />
-          <View style={style.section}>
-            <Text style={style.sectionTitle}>DELF Practice</Text>
-            <View style={style.sectionBody}>
-              <Card title="Mini Test" image='mini-test.png' firstColor='#8EFFE2' secondColor='#E3FFF8' />
-              <Card title="Full Test" image='mini-test.png' firstColor='#A4FDCC' secondColor='#E9FDF2' />
+    <AlertNotificationRoot theme='light' colors={[{ 'card': '#F0F0F0', }, { 'card': '#000', 'label': '#fff' }]}>
+      <ScrollView>
+        <View style={style.body}>
+          <View style={style.container}>
+            <Text style={style.title}>Delf Practice</Text>
+            <Text style={style.description}>Parlez-vous français? Practice anytime, anywhere with our app!</Text>
+            <SearchComponet icon='search' placeholder="Search Vocabulary" onChangeText={setWord} onPress={search} />
+            <View style={style.section}>
+              <Text style={style.sectionTitle}>DELF Practice</Text>
+              <View style={style.sectionBody}>
+                <Card title="Mini Test" image='mini-test.png' firstColor='#8EFFE2' secondColor='#E3FFF8' />
+                <Card title="Full Test" image='mini-test.png' firstColor='#A4FDCC' secondColor='#E9FDF2' />
+              </View>
             </View>
-          </View>
-          <View style={style.section}>
-            <Text style={style.sectionTitle}>Practice Listening</Text>
-            <View style={style.sectionBody}>
-              <Card title="Part 1" image='mini-test.png' firstColor='#F95A8F' secondColor='#FBCFDE' />
-              <Card title="Part 2" image='mini-test.png' firstColor='#EB9EFC' secondColor='#F7D3FF' />
-              <Card title="Part 3" image='mini-test.png' firstColor='#B6A0FF' secondColor='#EAE4FE' />
+            <View style={style.section}>
+              <Text style={style.sectionTitle}>Practice Listening</Text>
+              <View style={style.sectionBody}>
+                <Card title="Part 1" image='mini-test.png' firstColor='#F95A8F' secondColor='#FBCFDE' />
+                <Card title="Part 2" image='mini-test.png' firstColor='#EB9EFC' secondColor='#F7D3FF' />
+                <Card title="Part 3" image='mini-test.png' firstColor='#B6A0FF' secondColor='#EAE4FE' />
+              </View>
             </View>
-          </View>
-          <View style={style.section}>
-            <Text style={style.sectionTitle}>Practice Reading</Text>
-            <View style={style.sectionBody}>
-              <Card title="Part 1" image='mini-test.png' firstColor='#81C0F2' secondColor='#97DDF3' />
-              <Card title="Part 2" image='mini-test.png' firstColor='#F64E83' secondColor='#F5A2BC' />
-              <Card title="Part 3" image='mini-test.png' firstColor='#C378F2' secondColor='#FE90F7' />
+            <View style={style.section}>
+              <Text style={style.sectionTitle}>Practice Reading</Text>
+              <View style={style.sectionBody}>
+                <Card title="Part 1" image='mini-test.png' firstColor='#81C0F2' secondColor='#97DDF3' />
+                <Card title="Part 2" image='mini-test.png' firstColor='#F64E83' secondColor='#F5A2BC' />
+                <Card title="Part 3" image='mini-test.png' firstColor='#C378F2' secondColor='#FE90F7' />
+              </View>
             </View>
-          </View>
-          <View style={style.section}>
-            <Text style={style.sectionTitle}>Writing & Speaking</Text>
-            <View style={style.sectionBody}>
-              <Card title="Part 1" image='mini-test.png' firstColor='#EC6692' secondColor='#EEABC1' />
-              <Card title="Part 1" image='mini-test.png' firstColor='#DE8FEF' secondColor='#FAE3FF' />
+            <View style={style.section}>
+              <Text style={style.sectionTitle}>Writing & Speaking</Text>
+              <View style={style.sectionBody}>
+                <Card title="Part 1" image='mini-test.png' firstColor='#EC6692' secondColor='#EEABC1' />
+                <Card title="Part 1" image='mini-test.png' firstColor='#DE8FEF' secondColor='#FAE3FF' />
+              </View>
             </View>
           </View>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </AlertNotificationRoot>
+
   )
 }
 
