@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { ScreenHeight, ScreenWidth } from '../Common';
 
@@ -11,7 +11,9 @@ export default function SearchComponet(props) {
                 placeholder={props.placeholder}
                 onChangeText={props.onChangeText}
             />
-            <Icon name={props.icon} style={styles.icon} size={16} color="#7E7E7E" onPress={props?.onPress}/>
+            <TouchableOpacity onPress={props?.onPress}>
+                <Icon name={props.icon} style={styles.icon} size={16} color="#7E7E7E" />
+            </TouchableOpacity>
         </View>
     );
 }

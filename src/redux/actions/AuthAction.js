@@ -41,11 +41,11 @@ export const logout = (token) => async dispatch => {
 
 export const getAuth = (token) => async dispatch => {
     try {
-        const response = await axios.post(`${BaseURL}/users/auth`, {
+        const response = await axios.get(`${BaseURL}/users/auth`, {
             headers: {
-                Accept: 'application/json',
+                'Accept': 'application/json',
                 'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`,
+                'Authorization': `Bearer ${token}`,
             }
         })
         dispatch({

@@ -10,21 +10,18 @@ export const lookUp = async (word) => {
         }]
     }
     const response = await axios.request(options)
-    return response
+    console.log(response);
+    return response.data[0]
 }
 
-export const getDicExamples = async (word) => {
-    let lookUpRes = (await lookUp(word)).data
+export const getDicExamples = async (word, translations) => {
     let options = {
         ...dicExOption,
         data: [{
-            Text: lookUpRes[0].normalizedSource,
-            Translation: lookUpRes[0].translations[0].normalizedTarget
-        }]
+            Text: word,
+            Translation: translations
+        }],
     }
     const response = await axios.request(options)
-    return {
-        lookUp: lookUpRes,
-        exapmle: response.data
-    }
+    return response.data[0]
 }

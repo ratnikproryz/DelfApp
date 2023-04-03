@@ -35,7 +35,7 @@ export default function AuthReducer(state = initialState, action) {
         case GET_AUTH:
             return {
                 ...state,
-                user: payload.user
+                user: action.payload
             }
         default:
             return state;

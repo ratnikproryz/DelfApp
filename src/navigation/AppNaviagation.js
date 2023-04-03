@@ -3,8 +3,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import LoginScreen from '../screens/LoginScreen';
 import MainBottomNav from './MainBottomNav';
-import { autoLogin } from '../redux/actions/AuthAction';
+import { autoLogin, getAuth } from '../redux/actions/AuthAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NativeStackNav from './NativeStackNav';
 
 export default function AppNaviagation() {
     const isAuth = useSelector(state => state.auth.isAuth);
@@ -15,6 +16,7 @@ export default function AppNaviagation() {
             console.log(token);
             if (token !== null) {
                 dispatch(autoLogin(token));
+                dispatch(getAuth(token))
             }
         }
         getToken();
@@ -24,7 +26,7 @@ export default function AppNaviagation() {
     return (
         <NavigationContainer>
             {!isAuth && <LoginScreen />}
-            {isAuth && <MainBottomNav />}
+            {isAuth && <NativeStackNav />}
         </NavigationContainer>
     )
 }
