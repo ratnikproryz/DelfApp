@@ -7,6 +7,9 @@ import ResultScreen from '../screens/ResultScreen'
 import VocabularyScreen from '../screens/VocabularyScreen'
 import WordScreen from '../screens/WordScreen';
 import MainBottomNav from './MainBottomNav'
+import FullTestScreen from '../screens/FullTestScreen'
+import MiniTestScreen from '../screens/MiniTestScreen'
+import FullTestDetailScreen from '../screens/FullTestDetailScreen'
 
 const Stack = createNativeStackNavigator()
 export default function NativeStackNav() {
@@ -24,6 +27,10 @@ export default function NativeStackNav() {
       <Stack.Screen name='Result' component={ResultScreen} />
       <Stack.Screen name='Profile' component={ProfileScreen} />
       <Stack.Screen name='Word' component={WordScreen} />
+      <Stack.Screen name='FullTest' component={FullTestScreen} />
+      <Stack.Screen name='FullTestDetail' component={FullTestDetailScreen} />
+      <Stack.Screen name='MiniTest' component={MiniTestScreen} />
+
     </Stack.Navigator>
   )
 }
