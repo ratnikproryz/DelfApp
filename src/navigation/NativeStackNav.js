@@ -10,6 +10,7 @@ import MainBottomNav from './MainBottomNav'
 import FullTestScreen from '../screens/FullTestScreen'
 import MiniTestScreen from '../screens/MiniTestScreen'
 import FullTestDetailScreen from '../screens/FullTestDetailScreen'
+import VocabGameScreen from '../screens/VocabGameScreen'
 
 const Stack = createNativeStackNavigator()
 export default function NativeStackNav() {
@@ -30,7 +31,7 @@ export default function NativeStackNav() {
       <Stack.Screen name='FullTest' component={FullTestScreen} />
       <Stack.Screen name='FullTestDetail' component={FullTestDetailScreen} />
       <Stack.Screen name='MiniTest' component={MiniTestScreen} />
-
+      <Stack.Screen name='VocabGame' component={VocabGameScreen} />
     </Stack.Navigator>
   )
 }
