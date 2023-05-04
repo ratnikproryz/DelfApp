@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react'
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import {
-  Avatar,
-} from 'react-native-paper';
+import { Avatar, } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from 'react-redux';
 import ProfileInfoItem from '../components/ProfileInfoItem';
 import { logout } from '../redux/actions/AuthAction';
+import auth from '@react-native-firebase/auth';
+import { GoogleSignin } from '@react-native-community/google-signin';
 
-export default function ProfileScreen() {
+export default function ProfileScreen({ navigation }) {
   const dispatch = useDispatch()
   const user = useSelector(state => state.auth.user);
 
@@ -16,7 +16,12 @@ export default function ProfileScreen() {
     console.log('call use effect');
   }, [])
 
-  const logoutHandler = () => {
+  const logoutHandler = async () => {
+    await GoogleSignin.revokeAccess();
+    await GoogleSignin.signOut();
+    auth()
+      .signOut()
+
     dispatch(logout())
   }
 
@@ -25,7 +30,7 @@ export default function ProfileScreen() {
     <View style={{ backgroundColor: '#fff', flex: 1 }}>
       <View style={[styles.section, styles.center]}>
         <Avatar.Image
-          source={require('../assets/images/avatar.png')}
+          source={user?.avatar ? { uri: user.avatar } : require('../assets/images/avatar.png')}
           size={65}
         />
         <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{user?.name}</Text>
@@ -36,7 +41,7 @@ export default function ProfileScreen() {
         <ProfileInfoItem icon='clock-o' title='Daily Reminder' value='8:00 pm' />
       </View>
       <View style={styles.section} >
-        <TouchableOpacity onPress={() => { console.log('change pass'); }} style={styles.item}>
+        <TouchableOpacity onPress={() => { navigation.navigate('ChangePW') }} style={styles.item}>
           <>
             <Icon name="lock" color="#19C5AF" size={32} />
             <Text style={{ fontWeight: 'bold', fontSize: 16, paddingLeft: 15 }}>  Change passord</Text>

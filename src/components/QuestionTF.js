@@ -3,49 +3,35 @@ import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { BLACK, BLUE } from '../constants/color';
 import { Checkbox } from 'react-native-paper';
-export default function QuestionTF() {
-    const [checkboxes, setCheckboxes] = useState([{
-        id: 1,
-        title: 'true-option',
-        checked: false,
-    }, {
-        id: 2,
-        title: 'false-option',
-        checked: false,
-    }]);
-    const toggleCheckbox = (id, index) => {
-        const checkboxData = [...checkboxes];
-        checkboxData[index].checked = !checkboxData[index].checked;
-        checkboxData.forEach((element, elementIndex) => {
-            if (elementIndex != index) {
-                element.checked = !checkboxData[index].checked
-            }
-        });
-        setCheckboxes(checkboxData);
+export default function QuestionTF(props) {
+    const [selectedAnswer, setSelectedAnswer] = useState(props.answers.get(props.question_id))
+  
+    const selectHandler = (answer_id) => {
+        props.selectedAnswer(props.question_id, answer_id)
+        setSelectedAnswer(answer_id)
+    }
+    const toggleCheckbox = (selectedAnswer, currentAnswer) => {
+        return (selectedAnswer === currentAnswer) ? 'checked' : 'unchecked'
     }
 
-    const checkboxesRender = () => (
-        <View style={{ flexDirection: 'row', }}>
-            {checkboxes.map((cb, index) => {
-                return (
-                    <Checkbox
-                        key={cb.id}
-                        status={cb.checked ? 'checked' : 'unchecked'}
-                        onPress={() => toggleCheckbox(cb.id, index)}
-                        color={BLUE}
-                    />
-                )
-            })}
-        </View>
-    )
     return (
         <View style={styles.question}>
             <View style={styles.circle}>
-                <Text style={{ fontWeight: 'bold', color: BLACK }}>1</Text>
+                <Text style={{ fontWeight: 'bold', color: BLACK }}>{props.index}</Text>
             </View>
-            <Text style={{ fontWeight: 'bold', color: BLACK, }}>Cuisine régionale</Text>
+            <Text style={{ fontWeight: 'bold', color: BLACK, }}>{props.question}</Text>
             <View style={styles.checkboxes}>
-                {checkboxesRender()}
+                <View style={{ flexDirection: 'row', }}>
+                
+                    {props.options.map((item) => (
+                        <Checkbox
+                            key={item._id}
+                            status={toggleCheckbox(selectedAnswer, item._id)}
+                            onPress={() => selectHandler(item._id)}
+                            color={BLUE}
+                        />
+                    ))}
+                </View>
             </View>
 
         </View>
@@ -69,7 +55,7 @@ const styles = StyleSheet.create({
         marginRight: 15,
     },
     checkboxes: {
-        position:'absolute',
+        position: 'absolute',
         right: 0,
         paddingRight: 15,
     }

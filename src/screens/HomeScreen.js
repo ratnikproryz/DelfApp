@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useState } from 'react';
 import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import { getDicExamples, lookUp } from '../api/TransAPI';
@@ -6,10 +6,17 @@ import Card from '../components/Card';
 import SearchComponet from '../components/SearchComponet';
 import { GREY } from '../constants/color';
 import { AlertNotificationRoot, Toast, ALERT_TYPE } from 'react-native-alert-notification';
+import { useSelector } from 'react-redux';
 
 
 export default function HomeScreen({ navigation }) {
+  const isAuth = useSelector(state => state.auth.isAuth);
   const [word, setWord] = useState('')
+  useEffect(() => {
+    if (!isAuth) {
+      navigation.navigate('Login')
+    }
+  })
   const search = async () => {
     try {
       if (!word) return;

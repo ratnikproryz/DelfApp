@@ -8,11 +8,11 @@ export default function TestCard(props) {
         <TouchableOpacity style={styles.card} onPress={props.onPress}>
             <View style={[styles.circle, styles.center]}>
                 <Text style={{ fontSize: 13 }}>--</Text>
-                <Text style={{ fontSize: 13 }}>/200</Text>
+                <Text style={{ fontSize: 13 }}>/100</Text>
             </View>
             <View style={{  justifyContent: 'center', }}>
-                <Text style={{ fontWeight: 'bold', fontSize: 16, color: '#000000' }}>DELF Test 2022 - Test 1</Text>
-                <Text style={{ fontSize: 16 }}>200 questions</Text>
+                <Text style={{ fontWeight: 'bold', fontSize: 16, color: '#000000' }}>{props.name}</Text>
+                <Text style={{ fontSize: 16 }}>New questions</Text>
             </View>
             <TouchableOpacity style={{  }}>
                 <Icon name='download' size={24} color={GREEN} />
