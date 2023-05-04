@@ -55,3 +55,20 @@ export const removeFavorite = async (id) => {
         console.log(error);
     }
 }
+
+export const getRandomWord = async () => {
+    try {
+        const token = await AsyncStorage.getItem('@authToken');
+        console.log(token);
+        const response = await axios.get(`${BaseURL}/favorites/random`, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`
+            }
+        })
+        return response
+    } catch (error) {
+        console.log(error);
+    }
+}

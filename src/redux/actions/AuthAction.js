@@ -54,6 +54,27 @@ export const getAuth = (token) => async dispatch => {
         });
     } catch (error) {
         console.error(error.message);
+    }
+}
 
+export const loginGG = (idToken) => async dispatch => {
+    try {
+        const response = await axios.post(`${BaseURL}/users/login-google`, {
+            "idToken": idToken
+        }, {
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            }
+        })
+        dispatch({
+            type: LOGIN,
+            payload: {
+                user: response.data.data.user,
+                token: response.data.token
+            }
+        });
+    } catch (error) {
+        console.error(error.message);
     }
 }

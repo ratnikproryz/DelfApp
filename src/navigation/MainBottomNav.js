@@ -39,6 +39,7 @@ export default function MainBottomNav({ navigation }) {
         },
         tabBarActiveTintColor: GREEN,
         tabBarInactiveTintColor: GREY,
+        headerShown: false,
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />

@@ -1,10 +1,10 @@
 import React from 'react'
-import { Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native'
+import { Image, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native'
 import LinearGradient from 'react-native-linear-gradient'
 
 export default function Card(props) {
     return (
-        <TouchableHighlight style={styles.container} >
+        <TouchableOpacity style={styles.container} onPress={props.onPress} >
             <LinearGradient
                 style={[styles.body, styles.shadowProp]}
                 colors={[props.firstColor, props.secondColor]}
@@ -13,7 +13,7 @@ export default function Card(props) {
                 <Image source={require(`../assets/icons/mini-test.png`)} ></Image>
                 <Text>{props.title}</Text>
             </LinearGradient >
-        </TouchableHighlight>
+        </TouchableOpacity>
     )
 }
 

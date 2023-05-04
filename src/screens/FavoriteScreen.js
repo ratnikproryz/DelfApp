@@ -32,6 +32,7 @@ export default function FavoriteScreen({ navigation }) {
       {favorites.map((item) => (
         <WordItem key={item._id} item={item} onPress={navigatehandler} />
       ))}
+      
     </ScrollView>
   )
 }

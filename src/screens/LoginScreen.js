@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,14 +10,18 @@ import {
   StatusBar,
 } from 'react-native';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signUp } from '../api/AuthAPI';
 import { ScreenHeight, ScreenWidth } from '../Common';
 import InputComponent from '../components/InputComponent';
 import { GREEN, GREY, LIGHT_GREY } from '../constants/color';
-import { login } from '../redux/actions/AuthAction';
+import { login, loginGG } from '../redux/actions/AuthAction';
+import { GoogleSignin } from '@react-native-community/google-signin';
+import { WEB_CLIENT_ID } from '../constants/key';
+import auth from '@react-native-firebase/auth';
 
-export default function LoginScreen() {
+export default function LoginScreen({ navigation }) {
+  const isAuth = useSelector(state => state.auth.isAuth);
   const dispatch = useDispatch()
   const [isSignUp, setIsSignUp] = useState(false);
   const [name, setName] = useState("")
@@ -25,16 +29,51 @@ export default function LoginScreen() {
   const [password, setPassword] = useState("")
   const [passwordConfirm, setPassordConfirm] = useState("")
 
+  useEffect(() => {
+    if (isAuth) {
+      navigation.navigate('Home')
+    }
+    GoogleSignin.configure({
+      webClientId: WEB_CLIENT_ID,
+      offlineAccess: true,
+    });
+  }, [isAuth])
+
   const loginHandler = () => {
     dispatch(login(email, password))
   }
   const signUpHandler = () => {
     signUp(name, email, password, passwordConfirm)
   }
+  const forgotHandler = () => {
+    navigation.navigate("ForgotPW");
+  }
+  const loginGGHandler = async () => {
+    try {
+      // await GoogleSignin.revokeAccess();
+      // await GoogleSignin.signOut();
+      // auth()
+      //   .signOut()
+
+      await GoogleSignin.hasPlayServices();
+      const { accessToken, idToken } = await GoogleSignin.signIn();
+      console.log("accessToken: " + accessToken)
+      console.log("idToken: " + idToken)
+      const credential = auth.GoogleAuthProvider.credential(
+        idToken,
+        accessToken,
+      );
+      await auth().signInWithCredential(credential);
+      dispatch(loginGG(idToken))
+
+    } catch (error) {
+
+    }
+  }
 
   function googleButton() {
     return (
-      <TouchableOpacity style={styles.googleButton}>
+      <TouchableOpacity style={styles.googleButton} onPress={loginGGHandler}>
         <Image
           source={require('../assets/icons/google.png')}
           style={styles.googleIcon}
@@ -50,8 +89,8 @@ export default function LoginScreen() {
         <Text style={styles.loginLabel}>Login</Text>
         <InputComponent icon="at" value={email} placeholder="Email" onChangeText={setEmail} />
         <InputComponent icon="lock" value={password} placeholder="Password" isPassword={true} onChangeText={setPassword} />
-        <TouchableOpacity>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+        <TouchableOpacity onPress={forgotHandler}>
+          <Text style={styles.forgotPasswordText}>Forgot Password? </Text>
         </TouchableOpacity>
       </View>
     );
