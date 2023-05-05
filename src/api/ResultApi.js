@@ -1,5 +1,6 @@
 import axios from "axios";
 import { BaseURL } from "../constants/Common";
+import { Dialog, ALERT_TYPE } from 'react-native-alert-notification';
 
 export const initResult = async (exam_id, userID) => {
     try {
@@ -20,10 +21,10 @@ export const initResult = async (exam_id, userID) => {
     }
 }
 
-export const submitAnswers = async (answers, result_id) => {
+export const submitAnswers = async (answers, result_id, successCallBack) => {
     try {
         const response = await axios.post(`${BaseURL}/answers/save`, {
-            answers:JSON.stringify(Array.from(answers.entries())),
+            answers: JSON.stringify(Array.from(answers.entries())),
             result_id: result_id,
         }, {
             headers: {
@@ -32,6 +33,13 @@ export const submitAnswers = async (answers, result_id) => {
             }
         })
         console.log(response.data.data);
+        Dialog.show({
+            type: ALERT_TYPE.SUCCESS,
+            title: response.data.data.score + "/100",
+            textBody: 'Congrats!You have finished the test! Click OK to go back! ',
+            button: 'OK',
+            onPressButton: successCallBack
+        })
         return response
     } catch (error) {
         console.log(error);

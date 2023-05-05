@@ -10,6 +10,8 @@ import { useState } from 'react'
 import { useEffect } from 'react'
 import { getExercisesOfExam } from '../api/ExaminationAPI'
 import { submitAnswers } from '../api/ResultApi'
+import { AlertNotificationRoot } from 'react-native-alert-notification';
+import { Dialog, ALERT_TYPE } from 'react-native-alert-notification';
 
 export default function FullTestDetailScreen({ navigation, route }) {
     const [index, setIndex] = useState(1)
@@ -18,11 +20,19 @@ export default function FullTestDetailScreen({ navigation, route }) {
     const [data, setData] = useState()
     const [answers, setAnswers] = useState(new Map())
     const [resultID, setResultID] = useState(route.params.result_id)
+    const [isOver, setIsOver] = useState(false)
 
     useEffect(() => {
-        // getExercises()
-        console.log("resultID: " + resultID);
+        getExercises()
     }, [])
+
+    useEffect(() => {
+        if (isOver) { //auto submit answer when time over
+            submitAnswers(answers, resultID,successCallBack)
+            console.log('The time is over!');
+        }
+    }, [isOver])
+
     const getExercises = async () => {
         const response = await getExercisesOfExam(route.params.exam._id)
         setData(response.data)
@@ -33,10 +43,12 @@ export default function FullTestDetailScreen({ navigation, route }) {
     }
 
     const submit = () => {
-        console.log("resultID: " + resultID);
-        submitAnswers(answers, resultID)
-        console.log('submit');
+        submitAnswers(answers, resultID, successCallBack)
     }
+    const successCallBack = () => {
+        navigation.goBack()
+    }
+
     const render = (index) => {
         switch (index) {
             case 1:
@@ -60,11 +72,14 @@ export default function FullTestDetailScreen({ navigation, route }) {
     }
 
     return (
-        <View style={styles.body}>
-            <Header title={title[index - 1]} navigation={navigation} submit={submit} timeLimit={route.params.exam.timeLimit} />
-            {data ? render(index) : null}
-            <Footer onNext={() => setIndex(index => index + 1)} onBack={() => setIndex(index => index - 1)} />
-        </View>
+        <AlertNotificationRoot >
+            <View style={styles.body}>
+                <Header title={title[index - 1]} navigation={navigation} submit={submit}
+                    timeLimit={route.params.exam.timeLimit} setIsOver={setIsOver} />
+                {data ? render(index) : null}
+                <Footer onNext={() => setIndex(index => index + 1)} onBack={() => setIndex(index => index - 1)} />
+            </View>
+        </AlertNotificationRoot>
     )
 }
 

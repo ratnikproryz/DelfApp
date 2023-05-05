@@ -5,7 +5,8 @@ import { BLACK, BLUE } from '../constants/color';
 import { useState } from 'react';
 
 export default function Header(props) {
-    const [minutes, setMinutes] = useState(props.timeLimit)
+    const [minutes, setMinutes] = useState(1)
+    // const [minutes, setMinutes] = useState(props.timeLimit)
     const [timerID, setTimerID] = useState(null)
     const [timeCounter, setTimeCounter] = useState(minutes * 60)
 
@@ -13,6 +14,13 @@ export default function Header(props) {
         counterHandler()
     }, [])
 
+    useEffect(() => {
+        if (timeCounter == 0) {
+            console.log('Time over');
+            props.setIsOver(true)
+        }
+    }, [timeCounter])
+    
     const goBack = () => {
         props.navigation.goBack();
     }
