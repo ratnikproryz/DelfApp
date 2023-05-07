@@ -14,8 +14,7 @@ export default function MiniTestScreen() {
 const styles = StyleSheet.create({
     body: {
         flex: 1,
-        paddingLeft: 30,
-        paddingRight: 30,
+        paddingHorizontal: 30,
         backgroundColor: "#ffffff",
     }
 })

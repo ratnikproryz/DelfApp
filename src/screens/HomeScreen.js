@@ -40,10 +40,10 @@ export default function HomeScreen({ navigation }) {
   }
 
   const fullTestClickHandler = () => {
-    navigation.navigate('FullTest')
+    navigation.navigate('ListTest', { type: "Full Test" })
   }
   const miniTestClickHandler = () => {
-    navigation.navigate('MiniTest')
+    navigation.navigate('ListTest', { type: "Mini Test" })
   }
   return (
     <AlertNotificationRoot theme='light' colors={[{ 'card': '#F0F0F0', }, { 'card': '#000', 'label': '#fff' }]}>
@@ -95,8 +95,7 @@ const style = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   container: {
-    paddingLeft: 30,
-    paddingRight: 30,
+    paddingHorizontal: 30,
     paddingTop: 15,
   },
   title: {

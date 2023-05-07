@@ -70,8 +70,7 @@ const styles = StyleSheet.create({
     body: {
         flex: 1,
         backgroundColor: "#FFFFFF",
-        paddingLeft: 30,
-        paddingRight: 30
+        paddingHorizontal: 30,
     },
 
 })
