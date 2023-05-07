@@ -12,11 +12,8 @@ export default function Part2_1(props) {
             </View>
             {props?.data.questions.map((item, index) => (
                 <QuestionTF key={item._id} question_id={item._id} index={index + 1} question={item.question}
-                    options={item.options} selectedAnswer={props.selectedAnswer} answers={props.answers} />
+                    options={item.options} selectedAnswer={props?.selectedAnswer} answers={props.answers} mode={props.mode}/>
             ))}
-            {/* <QuestionTF />
-            <QuestionTF />
-            <QuestionTF /> */}
         </View>
     )
 }

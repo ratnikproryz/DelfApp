@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
         height: 100,
         justifyContent: 'center',
         paddingRight: 10,
-
     },
     body: {
         height: '100%',

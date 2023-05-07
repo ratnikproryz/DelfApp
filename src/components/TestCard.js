@@ -8,11 +8,11 @@ export default function TestCard(props) {
         <TouchableOpacity style={styles.card} onPress={props.onPress}>
             <View style={[styles.circle, styles.center]}>
                 <Text style={{ fontSize: 13 }}>--</Text>
-                <Text style={{ fontSize: 13 }}>/100</Text>
+                <Text style={{ fontSize: 13 }}>/75</Text>
             </View>
             <View style={{  justifyContent: 'center', }}>
                 <Text style={{ fontWeight: 'bold', fontSize: 16, color: '#000000' }}>{props.name}</Text>
-                <Text style={{ fontSize: 16 }}>New questions</Text>
+                <Text style={{ fontSize: 16 }}>Latest Update</Text>
             </View>
             <TouchableOpacity style={{  }}>
                 <Icon name='download' size={24} color={GREEN} />

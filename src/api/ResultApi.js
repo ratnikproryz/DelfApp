@@ -35,11 +35,30 @@ export const submitAnswers = async (answers, result_id, successCallBack) => {
         console.log(response.data.data);
         Dialog.show({
             type: ALERT_TYPE.SUCCESS,
-            title: response.data.data.score + "/100",
-            textBody: 'Congrats!You have finished the test! Click OK to go back! ',
+            title: response.data.data.score + "/75",
+            textBody: 'Congratulate! You have finished the test! Click OK to go back! ',
             button: 'OK',
             onPressButton: successCallBack
         })
+        return response
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getResult = async (userID) => {
+    try {
+        const response = await axios.get(`${BaseURL}/results?user=${userID}`)
+        console.log(response.data);
+        return response
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export const getAnswersSubmitted = async (resultID) => {
+    try {
+        const response = await axios.get(`${BaseURL}/answers?result=${resultID}`)
         return response
     } catch (error) {
         console.log(error);

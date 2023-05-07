@@ -1,30 +1,42 @@
 import React, { useState } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { BLACK, BLUE } from '../constants/color';
+import { BLACK, BLUE, GREEN } from '../constants/color';
 
 export default function Question(props) {
     const [selectedAnswer, setSelectedAnswer] = useState(props.answers.get(props.question_id))
     const ansIndex = ['A', 'B', 'C', 'D', 'E', 'F']
 
     const selectHandler = (answer_id) => {
-        props.selectedAnswer(props.question_id, answer_id)
+        props?.selectedAnswer(props.question_id, answer_id)
         setSelectedAnswer(answer_id)
     }
-    const toggleColor = (selectedAnswer, currentAnswer) => {
+    const toggleColor = (selectedAnswer, currentAnswer, isCorrect) => {
+        if (props.mode == 'Review') {
+            if (selectedAnswer === currentAnswer && isCorrect) return GREEN;
+            if (selectedAnswer === currentAnswer && !isCorrect) return BLUE;
+            if (selectedAnswer != currentAnswer && isCorrect) return "#FF0000";
+            if (!isCorrect) return BLACK;
+        }
         return (selectedAnswer === currentAnswer) ? BLUE : BLACK
     }
-    const toggleBGColor = (selectedAnswer, currentAnswer) => {
-
+    const toggleBGColor = (selectedAnswer, currentAnswer, isCorrect) => {
+        if (props.mode == 'Review') {
+            if (selectedAnswer === currentAnswer && isCorrect) return GREEN;
+            if (selectedAnswer === currentAnswer && !isCorrect) return BLUE;
+            if (selectedAnswer != currentAnswer && isCorrect) return "#FF0000";
+            if (!isCorrect) return "#FFF";
+        }
         return (selectedAnswer === currentAnswer) ? BLUE : "#FFF"
     }
 
-    const answerRender = (answerIndex, answerContent, id) => (
+
+    const answerRender = (answerIndex, answerContent, id, isCorrect) => (
         <TouchableOpacity key={id} style={styles.answer} onPress={() => selectHandler(id)}>
-            <View style={[styles.circle, { backgroundColor: toggleBGColor(selectedAnswer, id) }]}>
+            <View style={[styles.circle, { backgroundColor: toggleBGColor(selectedAnswer, id, isCorrect) }]}>
                 <Text style={{ fontWeight: 'bold', }}>{answerIndex}</Text>
             </View>
-            <Text style={{ fontWeight: 'bold', color: toggleColor(selectedAnswer, id), paddingRight: 30 }}>{answerContent}</Text>
+            <Text style={{ fontWeight: 'bold', color: toggleColor(selectedAnswer, id, isCorrect), paddingRight: 30 }}>{answerContent}</Text>
         </TouchableOpacity>
     )
 
@@ -34,11 +46,8 @@ export default function Question(props) {
                 <Text style={{ color: "#fff", fontWeight: 'bold', fontSize: 16 }} >{props.question}</Text>
             </View>
             {props?.options.map((item, index) => {
-                return answerRender(ansIndex[index], item.content, item._id)
+                return answerRender(ansIndex[index], item.content, item._id, item.isCorrect)
             })}
-            {/* {answerRender('A', 'Son diplome')}
-            {answerRender('B', 'Son diplome')}
-            {answerRender('C', 'Son diplome')} */}
         </View >
     )
 }

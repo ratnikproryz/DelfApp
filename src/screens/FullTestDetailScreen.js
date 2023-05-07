@@ -28,7 +28,7 @@ export default function FullTestDetailScreen({ navigation, route }) {
 
     useEffect(() => {
         if (isOver) { //auto submit answer when time over
-            submitAnswers(answers, resultID,successCallBack)
+            submitAnswers(answers, resultID, successCallBack)
             console.log('The time is over!');
         }
     }, [isOver])

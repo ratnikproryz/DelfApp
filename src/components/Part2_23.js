@@ -8,7 +8,7 @@ export default function Part2_23(props) {
             <Paragraph paragraph={props.data.paragraph} />
             {props?.data.questions.map((item, index) => (
                 <Question key={item._id} question_id={item._id} question={(index + 1) + ". " + item.question}
-                    options={item.options} selectedAnswer={props.selectedAnswer} answers={props.answers} />
+                    options={item.options} selectedAnswer={props?.selectedAnswer} answers={props.answers} mode={props.mode} />
             ))}
         </ScrollView>
     )

@@ -6,7 +6,7 @@ import { getListExams } from '../api/ExaminationAPI'
 import { initResult } from '../api/ResultApi'
 import { useSelector } from 'react-redux'
 
-export default function FullTestScreen({ navigation }) {
+export default function ListTestScreen({ navigation, route }) {
     const [exams, setExams] = useState([])
     const user = useSelector(state => state.auth.user);
 
@@ -15,7 +15,7 @@ export default function FullTestScreen({ navigation }) {
     }, [])
 
     const getExams = async () => {
-        const response = await getListExams("Full Test")
+        const response = await getListExams(route.params.type)
         console.log(response.data.data);
         setExams(response.data.data)
     }
@@ -37,8 +37,7 @@ export default function FullTestScreen({ navigation }) {
 const styles = StyleSheet.create({
     body: {
         flex: 1,
-        paddingLeft: 30,
-        paddingRight: 30,
+        paddingHorizontal: 30,
         backgroundColor: "#ffffff",
     }
 })
