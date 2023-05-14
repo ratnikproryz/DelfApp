@@ -1,20 +1,16 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, TextInput} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {ScreenHeight, ScreenWidth} from '../Common';
+import { ScreenHeight, ScreenWidth } from '../Common';
 
 export default function InputComponent(props) {
-  const [text, setText] = useState('');
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const [eyeIcon, setEyeIcon] = useState('eye-slash');
-  console.log(passwordVisibility);
+
   const showPassword = () => {
     console.log('ok');
     setEyeIcon(eyeIcon == 'eye' ? 'eye-slash' : 'eye');
     setPasswordVisibility(!passwordVisibility);
-  };
-  const changeTextHander = value => {
-    setText(value);
   };
 
   return (
@@ -24,14 +20,15 @@ export default function InputComponent(props) {
         <>
           <TextInput
             style={styles.input}
+            value={props.value}
             placeholder={props.placeholder}
             secureTextEntry={!passwordVisibility}
-            onChangeText={text => changeTextHander(text)}
+            onChangeText={props.onChangeText}
           />
           <Icon
             name={eyeIcon}
             onPress={() => showPassword()}
-            style={Object.assign({paddingRight: 10}, styles.icon)}
+            style={Object.assign({ paddingRight: 10 }, styles.icon)}
             size={16}
             color="#7E7E7E"
           />
@@ -39,8 +36,9 @@ export default function InputComponent(props) {
       ) : (
         <TextInput
           style={styles.input}
+          value={props.value}
           placeholder={props.placeholder}
-          onChangeText={text => changeTextHander(text)}
+          onChangeText={props.onChangeText}
         />
       )}
     </View>
@@ -56,6 +54,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 1,
     backgroundColor: 'white',
+
   },
   icon: {
     marginLeft: 10,
