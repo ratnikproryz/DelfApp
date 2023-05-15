@@ -13,7 +13,7 @@ export const getVocabularies = async token => {
       },
     });
     console.log('VocabularyAPI.js - getVocabularies: ', response.data);
-    return response;
+    return response.data;
   } catch (error) {
     console.log(error);
   }
@@ -37,7 +37,7 @@ export const createVocabulary = async (token, word, type, meaning) => {
       },
     );
     console.log('VocabularyAPI.js - createVocabulary: ', response.data);
-    return response;
+    return response.data;
   } catch (error) {
     console.log(error);
   }

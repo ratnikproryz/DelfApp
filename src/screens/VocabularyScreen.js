@@ -16,7 +16,7 @@ export default function VocabularyScreen({navigation}) {
 
   const getVocabulariesList = async () => {
     const response = await getVocabularies(token);
-    setVocabularies(response.data.data);
+    setVocabularies(response.data);
   };
 
   const navigatehandler = item => {
