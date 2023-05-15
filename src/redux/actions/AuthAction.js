@@ -32,7 +32,7 @@ export const autoLogin = token => dispatch => {
   });
 };
 
-export const logout = token => async dispatch => {
+export const logout = () => async dispatch => {
   dispatch({
     type: LOGOUT,
     payload: '',
