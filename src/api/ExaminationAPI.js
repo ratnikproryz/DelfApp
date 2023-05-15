@@ -1,32 +1,37 @@
-import axios from "axios";
-import { BaseURL } from "../constants/Common";
+import axios from 'axios';
+import {BaseURL} from '../constants/Common';
 
-export const getListExams = async (type) => {
-    try {
-        const response = await axios.get(`${BaseURL}/examinations?type=${type}`, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            }
-        })
-        return response
-    } catch (error) {
-        console.log(error);
-    }
-}
+export const getListExams = async type => {
+  try {
+    const response = await axios.get(`${BaseURL}/examinations?type=${type}`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    alert(error.message);
+    console.log(error.response.data);
+  }
+};
 
-export const getExercisesOfExam = async (exam_id) => {
-    try {
-        const response = await axios.post(`${BaseURL}/exercises/get-exercises-of-exam`, {
-            "exam_id": exam_id
-        }, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            }
-        })
-        return response
-    } catch (error) {
-        console.log(error);
-    }
-}
+export const getExam = async id => {
+  console.log(`${BaseURL}/examinations/${id}/exercises`);
+  try {
+    const response = await axios.get(
+      `${BaseURL}/examinations/${id}/exercises`,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      },
+    );
+    console.log('ExaminationAPI.js:getExam: ', response.data);
+    return response.data;
+  } catch (error) {
+    alert(error.message);
+    console.log(error);
+  }
+};
