@@ -7,6 +7,7 @@ import ProfileInfoItem from '../components/ProfileInfoItem';
 import {logout} from '../redux/actions/AuthAction';
 import auth from '@react-native-firebase/auth';
 import {GoogleSignin} from '@react-native-community/google-signin';
+import {GREEN} from '../constants/color';
 
 export default function ProfileScreen({navigation}) {
   const dispatch = useDispatch();
@@ -60,7 +61,7 @@ export default function ProfileScreen({navigation}) {
           }}
           style={styles.item}>
           <>
-            <Icon name="lock" color="#19C5AF" size={32} />
+            <Icon name="lock" color={GREEN} size={32} />
             <Text style={{fontWeight: 'bold', fontSize: 16, paddingLeft: 15}}>
               {' '}
               Change passord
@@ -69,7 +70,7 @@ export default function ProfileScreen({navigation}) {
         </TouchableOpacity>
         <TouchableOpacity onPress={logoutHandler} style={styles.item}>
           <>
-            <Icon name="sign-out" color="#19C5AF" size={32} />
+            <Icon name="sign-out" color={GREEN} size={32} />
             <Text style={{fontWeight: 'bold', fontSize: 16, paddingLeft: 15}}>
               Log out
             </Text>
