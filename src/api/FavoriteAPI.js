@@ -2,9 +2,8 @@ import axios from 'axios';
 import {BaseURL} from '../constants/Common';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const getFavorites = async () => {
+export const getFavorites = async token => {
   try {
-    const token = await AsyncStorage.getItem('@authToken');
     console.log(token);
     const response = await axios.get(`${BaseURL}/favorites`, {
       headers: {
@@ -13,15 +12,15 @@ export const getFavorites = async () => {
         Authorization: `Bearer ${token}`,
       },
     });
+    // console.log('FavoriteAPI.js - getFavorites: ', response.data);
     return response;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const saveFavorite = async (word, type, meaning) => {
+export const saveFavorite = async (token, word, type, meaning) => {
   try {
-    const token = await AsyncStorage.getItem('@authToken');
     const response = await axios.post(
       `${BaseURL}/favorites`,
       {
@@ -37,15 +36,15 @@ export const saveFavorite = async (word, type, meaning) => {
         },
       },
     );
+    console.log('FavoriteAPI.js - saveFavorite: ', response);
     return response;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const removeFavorite = async id => {
+export const removeFavorite = async (token, id) => {
   try {
-    const token = await AsyncStorage.getItem('@authToken');
     const response = await axios.delete(`${BaseURL}/favorites/${id}`, {
       headers: {
         Accept: 'application/json',
@@ -53,7 +52,8 @@ export const removeFavorite = async id => {
         Authorization: `Bearer ${token}`,
       },
     });
-    return response;
+    console.log('FavoriteAPI.js - saveFavorite: status: ', response.status);
+    return response.status;
   } catch (error) {
     console.log(error);
   }

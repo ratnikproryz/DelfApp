@@ -1,36 +1,46 @@
-import React, { useEffect, useState } from 'react'
-import { Image, ScrollView, StyleSheet, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native'
+import React, {useEffect, useState} from 'react';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableHighlight,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { GREEN } from '../constants/color';
+import {GREEN} from '../constants/color';
 import WordItem from '../components/WordItem';
-import { getFavorites } from '../api/FavoriteAPI';
-import { useIsFocused } from "@react-navigation/native";
+import {getFavorites} from '../api/FavoriteAPI';
+import {useIsFocused} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
-export default function VocabularyScreen({ navigation }) {
+export default function VocabularyScreen({navigation}) {
   const isFocused = useIsFocused();
-  const [favorites, setFavorites] = useState([])
+  const [favorites, setFavorites] = useState([]);
+  const token = useSelector(state => state.auth.token);
 
   useEffect(() => {
-    getFavoritesList()
-  }, [isFocused])
+    getFavoritesList();
+  }, [isFocused]);
 
   const getFavoritesList = async () => {
-    const response = await getFavorites()
-    setFavorites(response.data.data)
-  }
+    const response = await getFavorites(token);
+    setFavorites(response.data.data);
+  };
 
-  const navigatehandler = (item) => {
+  const navigatehandler = item => {
     navigation.navigate('Word', {
-      'word': item.word,
-      'wordType': item.type,
-      'meaning': item.meaning,
-      'isFavorite': favorites
-    })
-  }
+      word: item.word,
+      wordType: item.type,
+      meaning: item.meaning,
+      isFavorite: favorites,
+    });
+  };
 
   const playGamerHandler = () => {
-    navigation.navigate('VocabGame')
-  }
+    navigation.navigate('VocabGame');
+  };
 
   return (
     <View style={[styles.body]}>
@@ -42,9 +52,9 @@ export default function VocabularyScreen({ navigation }) {
           <Icon name='volume-up' size={20} color={'#fff'}></Icon>
         </TouchableHighlight>
       </View> */}
-      <View style={{ height: "90%" }}>
+      <View style={{height: '90%'}}>
         <ScrollView>
-          {favorites.map((item) => (
+          {favorites.map(item => (
             <WordItem key={item._id} item={item} onPress={navigatehandler} />
           ))}
         </ScrollView>
@@ -58,12 +68,16 @@ export default function VocabularyScreen({ navigation }) {
             <Icon name='chevron-right' size={32} color={GREEN}></Icon>
           </TouchableHighlight>
         </View> */}
-        <TouchableOpacity style={[styles.playButton, styles.center]} onPress={playGamerHandler}>
-          <Text style={{ color: '#ffffff', fontSize: 16, fontWeight: '700' }}>PLAY A VOCAB GAME</Text>
+        <TouchableOpacity
+          style={[styles.playButton, styles.center]}
+          onPress={playGamerHandler}>
+          <Text style={{color: '#ffffff', fontSize: 16, fontWeight: '700'}}>
+            PLAY A VOCAB GAME
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
-  )
+  );
 }
 const styles = StyleSheet.create({
   body: {
@@ -72,12 +86,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     height: '100%',
   },
-  progressBar: {
-
-  },
-  image: {
-
-  },
+  progressBar: {},
+  image: {},
   word: {
     fontWeight: 'bold',
     fontSize: 20,
@@ -88,9 +98,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     paddingBottom: 10,
   },
-  meaning: {
-
-  },
+  meaning: {},
   volume: {
     borderRadius: 50,
     backgroundColor: GREEN,
@@ -111,5 +119,5 @@ const styles = StyleSheet.create({
   },
   card: {
     height: '80%',
-  }
+  },
 });

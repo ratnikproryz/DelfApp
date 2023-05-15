@@ -9,17 +9,19 @@ import {
 import WordItem from '../components/WordItem';
 import {getFavorites} from '../api/FavoriteAPI';
 import {useIsFocused} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 export default function FavoriteScreen({navigation}) {
   const isFocused = useIsFocused();
   const [favorites, setFavorites] = useState([]);
+  const token = useSelector(state => state.auth.token);
 
   useEffect(() => {
     getFavoritesList();
   }, [isFocused]);
 
   const getFavoritesList = async () => {
-    const response = await getFavorites();
+    const response = await getFavorites(token);
     setFavorites(response.data.data);
   };
 
