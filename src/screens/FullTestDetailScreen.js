@@ -9,8 +9,9 @@ import Part3 from '../components/Part3';
 import {useState} from 'react';
 import {useEffect} from 'react';
 import {getExam} from '../api/ExaminationAPI';
-import {submitAnswers} from '../api/ResultApi';
+import {getResult, initResult, submitAnswers} from '../api/ResultApi';
 import {AlertNotificationRoot} from 'react-native-alert-notification';
+import {useSelector} from 'react-redux';
 
 export default function FullTestDetailScreen({navigation, route}) {
   const [index, setIndex] = useState(1);
@@ -24,9 +25,10 @@ export default function FullTestDetailScreen({navigation, route}) {
     'Writing',
   ]);
   const [data, setData] = useState([]);
-  const [answers, setAnswers] = useState(new Map());
+  const [answers, setAnswers] = useState([]);
   const [resultID, setResultID] = useState(route.params.result_id);
   const [isOver, setIsOver] = useState(false);
+  const token = useSelector(state => state.auth.token);
 
   useEffect(() => {
     getExercises();
@@ -35,23 +37,33 @@ export default function FullTestDetailScreen({navigation, route}) {
   useEffect(() => {
     if (isOver) {
       //auto submit answer when time over
-      submitAnswers(answers, resultID, successCallBack);
+      submit();
       console.log('The time is over!');
     }
   }, [isOver]);
 
   const getExercises = async () => {
-    const response = await getExam('6443e4ace8e764e76f044d7b');
+    const response = await getExam(route.params.exam.id);
     console.log('FullTestDetailScreen.js:getExercises: ', response.data[0]);
     setData(response.data);
   };
   const selectedAnswer = (question_id, answer_id) => {
-    setAnswers(answers.set(question_id, answer_id));
+    const index = answers.findIndex(el => el.question === question_id);
+    if (index >= 0) {
+      answers[index].answer = answer_id;
+      setAnswers(answers);
+    } else {
+      setAnswers([
+        ...answers,
+        {result: resultID, question: question_id, answer: answer_id},
+      ]);
+    }
     console.log(answers);
   };
 
-  const submit = () => {
-    submitAnswers(answers, resultID, successCallBack);
+  const submit = async () => {
+    await submitAnswers(answers);
+    await getResult(resultID, successCallBack);
   };
   const successCallBack = () => {
     navigation.goBack();

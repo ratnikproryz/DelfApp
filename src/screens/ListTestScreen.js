@@ -9,6 +9,7 @@ import {useSelector} from 'react-redux';
 export default function ListTestScreen({navigation, route}) {
   const [exams, setExams] = useState([]);
   const user = useSelector(state => state.auth.user);
+  const token = useSelector(state => state.auth.token);
 
   useEffect(() => {
     getExams();
@@ -21,7 +22,7 @@ export default function ListTestScreen({navigation, route}) {
   };
 
   const pressHandler = async item => {
-    const response = await initResult(item._id, user._id);
+    const response = await initResult(token, item._id);
     // console.log('ListTestScreen.js:pressHandler: ', response.data);
     navigation.navigate('FullTestDetail', {
       exam: item,

@@ -5,7 +5,9 @@ import {BLACK, BLUE, GREEN} from '../constants/color';
 
 export default function Question(props) {
   const [selectedAnswer, setSelectedAnswer] = useState(
-    props.answers.get(props.question_id),
+    props.answers.find(el => el.question === props.question_id) === undefined
+      ? null
+      : props.answers.find(el => el.question === props.question_id).answer,
   );
   const ansIndex = ['A', 'B', 'C', 'D', 'E', 'F'];
 
