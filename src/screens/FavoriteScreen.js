@@ -35,6 +35,7 @@ export default function FavoriteScreen({navigation}) {
       wordType: item.type,
       meaning: item.meaning,
       isFavorite: favorites,
+      phonetic: item?.phonetic,
     });
   };
 

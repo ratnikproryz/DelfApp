@@ -38,6 +38,7 @@ export default function VocabularyScreen({navigation}) {
             word: item.word,
             type: item.partOfSpeech,
             meaning: item.definition,
+            phonetic: item?.phonetic,
           }}
           onPress={navigatehandler}
         />

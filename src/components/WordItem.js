@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -11,11 +11,42 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {BLACK, GREEN} from '../constants/color';
 import {removeFavorite, saveFavorite} from '../api/FavoriteAPI';
 import {useSelector} from 'react-redux';
+import Sound from 'react-native-sound';
 
 export default function WordItem(props) {
+  Sound.setCategory('Playback');
+  const [sound, setSound] = useState(null);
   const [isFavorite, setFavorite] = useState(true);
   const [id, setID] = useState(props.item._id);
   const token = useSelector(state => state.auth.token);
+
+  useEffect(() => {
+    if (props.item?.phonetic) {
+      getSound();
+    }
+  }, []);
+
+  const getSound = () => {
+    let sound = new Sound(props.item?.phonetic, Sound.MAIN_BUNDLE, err => {
+      if (err) {
+        console.log('WordItem.js - playSound: ', err);
+        return;
+      }
+    });
+    setSound(sound);
+  };
+  const playSound = () => {
+    if (sound !== null) {
+      sound.play(success => {
+        if (success) {
+          console.log('successfully finished playing');
+        } else {
+          console.log('playback failed due to audio decoding errors');
+          getSound();
+        }
+      });
+    }
+  };
   const toggleFavorHandler = async () => {
     if (!isFavorite) {
       const response = await saveFavorite(
@@ -37,7 +68,7 @@ export default function WordItem(props) {
       <TouchableOpacity
         style={styles.item}
         onPress={() => props.onPress(props.item)}>
-        <TouchableOpacity style={styles.volume}>
+        <TouchableOpacity style={styles.volume} onPress={playSound}>
           <Icon name="volume-up" size={20} color={'#fff'} />
         </TouchableOpacity>
         <View style={styles.content}>
