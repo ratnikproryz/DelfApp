@@ -9,14 +9,16 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {BLACK, GREEN} from '../constants/color';
-import {removeFavorite, saveFavorite} from '../api/FavoriteAPI';
+import {getFavorites, removeFavorite, saveFavorite} from '../api/FavoriteAPI';
 import {useSelector} from 'react-redux';
 import Sound from 'react-native-sound';
 
 export default function WordItem(props) {
   Sound.setCategory('Playback');
   const [sound, setSound] = useState(null);
-  const [isFavorite, setFavorite] = useState(true);
+  const [isFavorite, setFavorite] = useState(
+    props.item.isFavorite === false ? false : true,
+  );
   const [id, setID] = useState(props.item._id);
   const token = useSelector(state => state.auth.token);
 
@@ -35,6 +37,7 @@ export default function WordItem(props) {
     });
     setSound(sound);
   };
+
   const playSound = () => {
     if (sound !== null) {
       sound.play(success => {
@@ -64,28 +67,26 @@ export default function WordItem(props) {
   };
 
   return (
-    isFavorite && (
-      <TouchableOpacity
-        style={styles.item}
-        onPress={() => props.onPress(props.item)}>
-        <TouchableOpacity style={styles.volume} onPress={playSound}>
-          <Icon name="volume-up" size={20} color={'#fff'} />
-        </TouchableOpacity>
-        <View style={styles.content}>
-          <View style={styles.wordPronoun}>
-            <Text style={styles.word}>{props.item.word}</Text>
-            <Text>[{props.item.type}]</Text>
-          </View>
-          <Text>{props.item.meaning}</Text>
-        </View>
-        <TouchableOpacity
-          style={styles.favoriteButton}
-          onPress={toggleFavorHandler}>
-          {isFavorite && <Icon name="heart" size={20} color={'red'} />}
-          {!isFavorite && <Icon name="heart-o" size={20} color={'#000000'} />}
-        </TouchableOpacity>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => props.onPress(props.item)}>
+      <TouchableOpacity style={styles.volume} onPress={playSound}>
+        <Icon name="volume-up" size={20} color={'#fff'} />
       </TouchableOpacity>
-    )
+      <View style={styles.content}>
+        <View style={styles.wordPronoun}>
+          <Text style={styles.word}>{props.item.word}</Text>
+          <Text>[{props.item.type}]</Text>
+        </View>
+        <Text>{props.item.meaning}</Text>
+      </View>
+      <TouchableOpacity
+        style={styles.favoriteButton}
+        onPress={toggleFavorHandler}>
+        {isFavorite && <Icon name="heart" size={20} color={'red'} />}
+        {!isFavorite && <Icon name="heart-o" size={20} color={'#000000'} />}
+      </TouchableOpacity>
+    </TouchableOpacity>
   );
 }
 const styles = StyleSheet.create({

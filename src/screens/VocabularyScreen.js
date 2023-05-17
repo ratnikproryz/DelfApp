@@ -4,14 +4,17 @@ import WordItem from '../components/WordItem';
 import {getVocabularies} from '../api/VocabularyAPI';
 import {useIsFocused} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
+import {getFavorites} from '../api/FavoriteAPI';
 
 export default function VocabularyScreen({navigation}) {
   const isFocused = useIsFocused();
   const [vocabularies, setVocabularies] = useState([]);
+  const [favorites, setFavorites] = useState([]);
   const token = useSelector(state => state.auth.token);
 
   useEffect(() => {
     getVocabulariesList();
+    getFavoritesList();
   }, [isFocused]);
 
   const getVocabulariesList = async () => {
@@ -19,11 +22,17 @@ export default function VocabularyScreen({navigation}) {
     setVocabularies(response.data);
   };
 
+  const getFavoritesList = async () => {
+    const response = await getFavorites(token);
+    setFavorites(response.data);
+  };
+
   const navigatehandler = item => {
     // navigation.navigate('Word', {
     //   word: item.word,
-    //   wordType: item.type,
-    //   meaning: item.meaning,
+    //             type: item.partOfSpeech,
+    //             meaning: item.definition,
+    //             phonetic: item?.phonetic,
     //   isFavorite: favorites,
     // });
     alert('Maintaining!');
@@ -39,6 +48,8 @@ export default function VocabularyScreen({navigation}) {
             type: item.partOfSpeech,
             meaning: item.definition,
             phonetic: item?.phonetic,
+            isFavorite: favorites.some(el => el.word === item.word),
+            _id: favorites.find(el => el.word === item.word),
           }}
           onPress={navigatehandler}
         />

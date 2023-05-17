@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const getFavorites = async token => {
   try {
     console.log(token);
-    const response = await axios.get(`${BaseURL}/favorites`, {
+    const response = await axios.get(`${BaseURL}/favorites/my-favorites`, {
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -13,7 +13,7 @@ export const getFavorites = async token => {
       },
     });
     // console.log('FavoriteAPI.js - getFavorites: ', response.data);
-    return response;
+    return response.data;
   } catch (error) {
     console.log(error);
   }

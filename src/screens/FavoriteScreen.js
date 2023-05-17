@@ -26,7 +26,7 @@ export default function FavoriteScreen({navigation}) {
 
   const getFavoritesList = async () => {
     const response = await getFavorites(token);
-    setFavorites(response.data.data);
+    setFavorites(response.data);
   };
 
   const navigatehandler = item => {
@@ -55,7 +55,7 @@ export default function FavoriteScreen({navigation}) {
       </View> */}
       <View style={{height: '90%'}}>
         <ScrollView>
-          {favorites.map(item => (
+          {favorites?.map(item => (
             <WordItem key={item._id} item={item} onPress={navigatehandler} />
           ))}
         </ScrollView>
