@@ -26,11 +26,11 @@ export default function ResultScreen({navigation}) {
     const response = await getResults(token);
     setResults(response);
     console.log('ResultScreen.js - getResultsList: ', results);
-    let totalScore = results.data.reduce(
+    let totalScore = response.data.reduce(
       (accumulator, currentValue) => accumulator + currentValue.score,
       0,
     );
-    setAccuracy(((totalScore * 100) / (results.results * 75)).toFixed(2));
+    setAccuracy(((totalScore * 100) / (response.results * 75)).toFixed(2));
   };
 
   const onReview = (resultID, examID) => {
