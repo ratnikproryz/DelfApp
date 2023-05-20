@@ -41,11 +41,17 @@ export const submitAnswers = async answers => {
   }
 };
 
-export const getResults = async userID => {
+export const getResults = async token => {
   try {
-    const response = await axios.get(`${BaseURL}/results?user=${userID}`);
-    console.log(response.data);
-    return response;
+    const response = await axios.get(`${BaseURL}/results/my-results`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log('ResultApi.js - getResults: ', response.data);
+    return response.data;
   } catch (error) {
     console.log(error);
   }
@@ -54,7 +60,7 @@ export const getResults = async userID => {
 export const getAnswersSubmitted = async resultID => {
   try {
     const response = await axios.get(`${BaseURL}/answers?result=${resultID}`);
-    return response;
+    return response.data;
   } catch (error) {
     console.log(error);
   }

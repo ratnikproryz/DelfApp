@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {GREEN} from '../constants/color';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useEffect} from 'react';
@@ -7,22 +13,24 @@ import {getResults} from '../api/ResultApi';
 import {useSelector} from 'react-redux';
 
 export default function ResultScreen({navigation}) {
-  const [result, setResult] = useState();
+  const [results, setResults] = useState([]);
   const user = useSelector(state => state.auth.user);
   const [accuracy, setAccuracy] = useState(0);
+  const token = useSelector(state => state.auth.token);
 
   useEffect(() => {
     getResultsList();
   }, []);
 
   const getResultsList = async () => {
-    const response = await getResults(user._id);
-    setResult(response.data);
-    let accuracy = response.data.data.reduce(
+    const response = await getResults(token);
+    setResults(response);
+    console.log('ResultScreen.js - getResultsList: ', results);
+    let totalScore = results.data.reduce(
       (accumulator, currentValue) => accumulator + currentValue.score,
       0,
     );
-    setAccuracy(((accuracy * 100) / (response.data.results * 75)).toFixed(2));
+    setAccuracy(((totalScore * 100) / (results.results * 75)).toFixed(2));
   };
 
   const onReview = (resultID, examID) => {
@@ -36,7 +44,7 @@ export default function ResultScreen({navigation}) {
       <View style={styles.cardContainer}>
         <View style={[styles.card, styles.center, styles.shadowProp]}>
           <Text style={styles.cardTitle}>Tests</Text>
-          <Text style={styles.cardValue}>{result?.results}</Text>
+          <Text style={styles.cardValue}>{results.results}</Text>
         </View>
         <View style={[styles.card, styles.center, styles.shadowProp]}>
           <Text style={styles.cardTitle}>Accuracy</Text>
@@ -50,21 +58,23 @@ export default function ResultScreen({navigation}) {
           <Text style={[styles.header, {width: '25%'}]}>Type</Text>
           <Text style={[styles.header, {width: '15%'}]}>Point</Text>
         </View>
-        {result?.data?.map((item, index) => (
-          <TouchableOpacity
-            key={item._id}
-            style={styles.row}
-            onPress={() => onReview(item._id, item.examination._id)}>
-            <Text style={[styles.text, {width: '15%'}]}> {index + 1}</Text>
-            <Text style={[styles.text, {width: '45%'}]}>
-              {item.examination.name}
-            </Text>
-            <Text style={[styles.text, {width: '25%'}]}>
-              {item.examination.type}
-            </Text>
-            <Text style={[styles.text, {width: '15%'}]}>{item.score}/75</Text>
-          </TouchableOpacity>
-        ))}
+        <ScrollView>
+          {results?.data?.map((item, index) => (
+            <TouchableOpacity
+              key={item._id}
+              style={styles.row}
+              onPress={() => onReview(item._id, item.examination._id)}>
+              <Text style={[styles.text, {width: '15%'}]}> {index + 1}</Text>
+              <Text style={[styles.text, {width: '45%'}]}>
+                {item.examination.name}
+              </Text>
+              <Text style={[styles.text, {width: '25%'}]}>
+                {item.examination.type}
+              </Text>
+              <Text style={[styles.text, {width: '15%'}]}>{item.score}/75</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
       </View>
     </View>
   );

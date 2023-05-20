@@ -17,7 +17,6 @@ export const getListExams = async type => {
 };
 
 export const getExam = async id => {
-  console.log(`${BaseURL}/examinations/${id}/exercises`);
   try {
     const response = await axios.get(
       `${BaseURL}/examinations/${id}/exercises`,
