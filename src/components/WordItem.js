@@ -12,8 +12,10 @@ import {BLACK, GREEN} from '../constants/color';
 import {getFavorites, removeFavorite, saveFavorite} from '../api/FavoriteAPI';
 import {useSelector} from 'react-redux';
 import Sound from 'react-native-sound';
+import {useIsFocused} from '@react-navigation/native';
 
 export default function WordItem(props) {
+  const isFocused = useIsFocused();
   Sound.setCategory('Playback');
   const [sound, setSound] = useState(null);
   const [isFavorite, setFavorite] = useState(
@@ -23,32 +25,52 @@ export default function WordItem(props) {
   const token = useSelector(state => state.auth.token);
 
   useEffect(() => {
-    if (props.item?.phonetic) {
-      getSound();
-    }
-  }, []);
+    // if (props.item?.phonetic) {
+    //   getSound();
+    // }
+  }, [isFocused]);
 
   const getSound = () => {
-    let sound = new Sound(props.item?.phonetic, Sound.MAIN_BUNDLE, err => {
-      if (err) {
-        console.log('WordItem.js - playSound: ', err);
-        return;
-      }
-    });
-    setSound(sound);
+    // let sound = new Sound(props.item?.phonetic, Sound.MAIN_BUNDLE, err => {
+    //   if (err) {
+    //     console.log('WordItem.js - playSound: ', err);
+    //     return;
+    //   }
+    // });
+    // console.log('WordItem.js - getSound: success');
+    //
   };
 
   const playSound = () => {
-    if (sound !== null) {
-      sound.play(success => {
-        if (success) {
-          console.log('successfully finished playing');
-        } else {
-          console.log('playback failed due to audio decoding errors');
-          getSound();
-        }
-      });
+    if (props.item?.phonetic === undefined) {
+      return;
     }
+    console.log('WordItem.js - playSound... ', props.item?.phonetic);
+    const audio = new Sound(props.item?.phonetic, null, err => {
+      console.log('WordItem.js - playSound callback');
+      if (err) {
+        console.log('WordItem.js - playSound: ', err);
+      } else {
+        audio.play();
+      }
+    });
+    // setTimeout(() => {
+    //   audio.play();
+    // }, 100);
+    // audio.release();
+    // setSound(audio);
+
+    // if (sound !== null) {
+    //   console.log('WordItem.js - playSound: ', sound);
+    //   sound.play(success => {
+    //     if (success) {
+    //       console.log('successfully finished playing');
+    //     } else {
+    //       console.log('playback failed due to audio decoding errors');
+    //       getSound();
+    //     }
+    //   });
+    // }
   };
   const toggleFavorHandler = async () => {
     if (!isFavorite) {
