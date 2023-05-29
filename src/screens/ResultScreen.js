@@ -11,8 +11,10 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {useEffect} from 'react';
 import {getResults} from '../api/ResultApi';
 import {useSelector} from 'react-redux';
+import {useIsFocused} from '@react-navigation/native';
 
 export default function ResultScreen({navigation}) {
+  const isFocused = useIsFocused();
   const [results, setResults] = useState([]);
   const user = useSelector(state => state.auth.user);
   const [accuracy, setAccuracy] = useState(0);
@@ -20,7 +22,7 @@ export default function ResultScreen({navigation}) {
 
   useEffect(() => {
     getResultsList();
-  }, []);
+  }, [isFocused]);
 
   const getResultsList = async () => {
     const response = await getResults(token);
