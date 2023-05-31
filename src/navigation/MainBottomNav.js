@@ -5,6 +5,7 @@ import VocabularyScreen from '../screens/VocabularyScreen';
 import FavoriteScreen from '../screens/FavoriteScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ResultScreen from '../screens/ResultScreen';
+import ChatGPTScreen from '../screens/ChatGPTScreen';
 import {GREEN, GREY} from '../constants/color';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -28,6 +29,9 @@ export default function MainBottomNav({navigation}) {
             case 'Favorite':
               icon = 'gamepad';
               break;
+            case 'ChatGPT':
+              icon = 'envelope-o';
+              break;
             case 'Result':
               icon = 'bar-chart-o';
               break;
@@ -44,6 +48,7 @@ export default function MainBottomNav({navigation}) {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Vocabulary" component={VocabularyScreen} />
       <Tab.Screen name="Favorite" component={FavoriteScreen} />
+      <Tab.Screen name="ChatGPT" component={ChatGPTScreen} />
       <Tab.Screen name="Result" component={ResultScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>

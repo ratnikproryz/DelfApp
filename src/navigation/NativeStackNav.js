@@ -4,6 +4,7 @@ import VocabularyScreen from '../screens/VocabularyScreen';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ResultScreen from '../screens/ResultScreen';
+import ChatGPTScreen from '../screens/ChatGPTScreen';
 import FavoriteScreen from '../screens/FavoriteScreen';
 import WordScreen from '../screens/WordScreen';
 import MainBottomNav from './MainBottomNav';
@@ -29,6 +30,7 @@ export default function NativeStackNav() {
       <Stack.Screen name="Favorite" component={FavoriteScreen} />
       <Stack.Screen name="Vocabulary" component={VocabularyScreen} />
       <Stack.Screen name="Result" component={ResultScreen} />
+      <Stack.Screen name="ChatGPT" component={ChatGPTScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />
       <Stack.Screen name="Word" component={WordScreen} />
       <Stack.Screen name="ListTest" component={ListTestScreen} />
