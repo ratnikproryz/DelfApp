@@ -19,7 +19,7 @@ export const getListExams = async type => {
 export const getExam = async id => {
   try {
     const response = await axios.get(
-      `${BaseURL}/examinations/${id}/exercises`,
+      `${BaseURL}/examinations/${id}`,
       {
         headers: {
           Accept: 'application/json',
