@@ -1,18 +1,18 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Footer from '../components/Footer';
 import Part1 from '../components/Part1';
 import Part2_1 from '../components/Part2_1';
 import Part2_23 from '../components/Part2_23';
 import Part3 from '../components/Part3';
-import {useState} from 'react';
-import {useEffect} from 'react';
-import {getExam} from '../api/ExaminationAPI';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { getExam } from '../api/ExaminationAPI';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {BLACK} from '../constants/color';
-import {getAnswersSubmitted} from '../api/ResultApi';
+import { BLACK } from '../constants/color';
+import { getAnswersSubmitted } from '../api/ResultApi';
 
-export default function FullTestReviewScreen({navigation, route}) {
+export default function FullTestReviewScreen({ navigation, route }) {
   const [index, setIndex] = useState(1);
   const [title, setTitle] = useState([
     'Listening 1',
@@ -34,21 +34,25 @@ export default function FullTestReviewScreen({navigation, route}) {
 
   const getExercises = async () => {
     const response = await getExam(route.params.examID);
-    setData(response.data);
+    setData(response.data.exercises);
   };
-  const selectedAnswer = (question_id, answer_id) => {};
+  const selectedAnswer = (question_id, answer_id) => { };
 
   const getAnswers = async () => {
     const response = await getAnswersSubmitted(route.params.resultID);
     setAnswers(response.data);
   };
 
+  const getExerciseByType = (type) => {
+    return data?.find(exercise => exercise.type === type)
+  }
+
   const render = index => {
     switch (index) {
       case 1:
         return (
           <Part1
-            data={data[0]}
+            data={getExerciseByType('Listening 1')}
             mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
@@ -57,7 +61,7 @@ export default function FullTestReviewScreen({navigation, route}) {
       case 2:
         return (
           <Part1
-            data={data[1]}
+            data={getExerciseByType('Listening 2')}
             mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
@@ -66,7 +70,7 @@ export default function FullTestReviewScreen({navigation, route}) {
       case 3:
         return (
           <Part1
-            data={data[2]}
+            data={getExerciseByType('Listening 3')}
             mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
@@ -75,7 +79,7 @@ export default function FullTestReviewScreen({navigation, route}) {
       case 4:
         return (
           <Part2_1
-            data={data[3]}
+            data={getExerciseByType('Reading 1')}
             mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
@@ -84,7 +88,7 @@ export default function FullTestReviewScreen({navigation, route}) {
       case 5:
         return (
           <Part2_23
-            data={data[4]}
+            data={getExerciseByType('Reading 2')}
             mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
@@ -93,7 +97,7 @@ export default function FullTestReviewScreen({navigation, route}) {
       case 6:
         return (
           <Part2_23
-            data={data[5]}
+            data={getExerciseByType('Reading 3')}
             mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
@@ -102,7 +106,7 @@ export default function FullTestReviewScreen({navigation, route}) {
       case 7:
         return (
           <Part3
-            data={data[6]}
+            data={getExerciseByType('Writing')}
             mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
@@ -112,7 +116,7 @@ export default function FullTestReviewScreen({navigation, route}) {
         setIndex(1);
         return (
           <Part1
-            data={data[0]}
+            data={getExerciseByType('Listening 1')}
             mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
@@ -127,7 +131,7 @@ export default function FullTestReviewScreen({navigation, route}) {
         <TouchableOpacity style={{}} onPress={() => navigation.goBack()}>
           <Icon name="chevron-left" size={24} color={BLACK} />
         </TouchableOpacity>
-        <Text style={{color: BLACK, fontSize: 24, paddingLeft: 30}}>
+        <Text style={{ color: BLACK, fontSize: 24, paddingLeft: 30 }}>
           {title[index - 1]}
         </Text>
       </View>
