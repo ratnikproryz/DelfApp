@@ -1,10 +1,10 @@
 import React from 'react';
-import {ScrollView, View} from 'react-native';
+import { ScrollView, View } from 'react-native';
 import Question from '../components/Question';
 
 export default function Part1(props) {
   return (
-    <ScrollView style={{marginBottom: 50}}>
+    <ScrollView style={{ marginBottom: 50 }}>
       {props.data?.questions.map((item, index) => (
         <Question
           key={item._id}

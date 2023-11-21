@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {OpenAIKey, OpenAIURL} from '../constants/Common';
+import { OpenAIKey, OpenAIURL } from '../constants/Common';
 
 export const getMessage = async text => {
   try {
@@ -7,7 +7,7 @@ export const getMessage = async text => {
       `${OpenAIURL}/chat/completions`,
       JSON.stringify({
         model: 'gpt-3.5-turbo',
-        messages: [{role: 'user', content: text}],
+        messages: [{ role: 'user', content: text }],
         temperature: 0.7,
       }),
       {

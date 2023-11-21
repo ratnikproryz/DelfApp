@@ -1,18 +1,18 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Footer from '../components/Footer';
 import Part1 from '../components/Part1';
 import Part2_1 from '../components/Part2_1';
 import Part2_23 from '../components/Part2_23';
 import Part3 from '../components/Part3';
-import {useState} from 'react';
-import {useEffect} from 'react';
-import {getExam} from '../api/ExaminationAPI';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { getExam } from '../api/ExaminationAPI';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {BLACK} from '../constants/color';
-import {getAnswersSubmitted} from '../api/ResultApi';
+import { BLACK } from '../constants/color';
+import { getAnswersSubmitted } from '../api/ResultApi';
 
-export default function FullTestReviewScreen({navigation, route}) {
+export default function FullTestReviewScreen({ navigation, route }) {
   const [index, setIndex] = useState(1);
   const [title, setTitle] = useState([
     'Listening 1',
@@ -131,7 +131,7 @@ export default function FullTestReviewScreen({navigation, route}) {
         <TouchableOpacity style={{}} onPress={() => navigation.goBack()}>
           <Icon name="chevron-left" size={24} color={BLACK} />
         </TouchableOpacity>
-        <Text style={{color: BLACK, fontSize: 24, paddingLeft: 30}}>
+        <Text style={{ color: BLACK, fontSize: 24, paddingLeft: 30 }}>
           {title[index - 1]}
         </Text>
       </View>

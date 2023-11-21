@@ -1,22 +1,22 @@
 import React from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import VocabularyScreen from '../screens/VocabularyScreen';
 import FavoriteScreen from '../screens/FavoriteScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import ResultScreen from '../screens/ResultScreen';
 import ChatGPTScreen from '../screens/ChatGPTScreen';
-import {GREEN, GREY} from '../constants/color';
+import { GREEN, GREY } from '../constants/color';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const Tab = createBottomTabNavigator();
 
-export default function MainBottomNav({navigation}) {
+export default function MainBottomNav({ navigation }) {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={({route}) => ({
-        tabBarIcon: ({focused, color, size}) => {
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color, size }) => {
           let icon;
           let routeName = route.name;
           switch (routeName) {

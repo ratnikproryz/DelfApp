@@ -1,14 +1,14 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import Paragrahp from './Paragraph';
 import QuestionTF from './QuestionTF';
-import {BLUE} from '../constants/color';
+import { BLUE } from '../constants/color';
 export default function Part2_1(props) {
   return (
     <View>
       <Paragrahp paragraph={props.data?.paragraph} />
       <View style={styles.bar}>
-        <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 16}}>
+        <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>
           OUI/NON
         </Text>
       </View>

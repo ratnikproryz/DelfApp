@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react';
-import {ScrollView, StyleSheet} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StyleSheet } from 'react-native';
 import WordItem from '../components/WordItem';
-import {getVocabularies} from '../api/VocabularyAPI';
-import {useIsFocused} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
-import {getFavorites} from '../api/FavoriteAPI';
+import { getVocabularies } from '../api/VocabularyAPI';
+import { useIsFocused } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
+import { getFavorites } from '../api/FavoriteAPI';
 
-export default function VocabularyScreen({navigation}) {
+export default function VocabularyScreen({ navigation }) {
   const isFocused = useIsFocused();
   const [vocabularies, setVocabularies] = useState([]);
   const [favorites, setFavorites] = useState([]);

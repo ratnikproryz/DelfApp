@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {BaseURL} from '../constants/Common';
+import { BaseURL } from '../constants/Common';
 
 export const getListExams = async type => {
   try {

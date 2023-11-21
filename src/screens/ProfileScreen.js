@@ -1,15 +1,15 @@
-import React, {useEffect} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {Avatar} from 'react-native-paper';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Avatar } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import ProfileInfoItem from '../components/ProfileInfoItem';
-import {logout} from '../redux/actions/AuthAction';
+import { logout } from '../redux/actions/AuthAction';
 import auth from '@react-native-firebase/auth';
-import {GoogleSignin} from '@react-native-community/google-signin';
-import {GREEN} from '../constants/color';
+import { GoogleSignin } from '@react-native-community/google-signin';
+import { GREEN } from '../constants/color';
 
-export default function ProfileScreen({navigation}) {
+export default function ProfileScreen({ navigation }) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.auth.user);
 
@@ -33,17 +33,17 @@ export default function ProfileScreen({navigation}) {
   };
 
   return (
-    <View style={{backgroundColor: '#fff', flex: 1}}>
+    <View style={{ backgroundColor: '#fff', flex: 1 }}>
       <View style={[styles.section, styles.center]}>
         <Avatar.Image
           source={
             user?.avatar
-              ? {uri: user.avatar}
+              ? { uri: user.avatar }
               : require('../assets/images/avatar.png')
           }
           size={65}
         />
-        <Text style={{fontSize: 16, fontWeight: 'bold'}}>{user?.name}</Text>
+        <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{user?.name}</Text>
       </View>
       <View style={styles.section}>
         <ProfileInfoItem icon="at" title="Email" value={user?.email} />
@@ -62,16 +62,16 @@ export default function ProfileScreen({navigation}) {
           style={styles.item}>
           <>
             <Icon name="lock" color={GREEN} size={32} />
-            <Text style={{fontWeight: 'bold', fontSize: 16, paddingLeft: 15}}>
+            <Text style={{ fontWeight: 'bold', fontSize: 16, paddingLeft: 15 }}>
               {' '}
-              Change passord
+              Change password
             </Text>
           </>
         </TouchableOpacity>
         <TouchableOpacity onPress={logoutHandler} style={styles.item}>
           <>
             <Icon name="sign-out" color={GREEN} size={32} />
-            <Text style={{fontWeight: 'bold', fontSize: 16, paddingLeft: 15}}>
+            <Text style={{ fontWeight: 'bold', fontSize: 16, paddingLeft: 15 }}>
               Log out
             </Text>
           </>

@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, TextInput} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, TextInput } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default function InputPasswordCmp(props) {
@@ -23,7 +23,7 @@ export default function InputPasswordCmp(props) {
       <Icon
         name={eyeIcon}
         onPress={() => showPassword()}
-        style={Object.assign({paddingRight: 10}, styles.icon)}
+        style={Object.assign({ paddingRight: 10 }, styles.icon)}
         size={16}
         color="#7E7E7E"
       />

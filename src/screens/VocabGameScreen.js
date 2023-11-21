@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {BLUE, GREEN} from '../constants/color';
-import {getRandomWord} from '../api/FavoriteAPI';
+import { BLUE, GREEN } from '../constants/color';
+import { getRandomWord } from '../api/FavoriteAPI';
 import {
   ALERT_TYPE,
   AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 export default function VocabGameScreen() {
   const token = useSelector(state => state.auth.token);
@@ -87,10 +87,14 @@ export default function VocabGameScreen() {
         style={[
           styles.card,
           styles.center,
-          {backgroundColor: toggleBGColor(key, value)},
+          { backgroundColor: toggleBGColor(key, value) },
         ]}>
         <Text
-          style={{color: '#FFFFFF', fontWeight: 'bold', paddingHorizontal: 10}}>
+          style={{
+            color: '#FFFFFF',
+            fontWeight: 'bold',
+            paddingHorizontal: 10,
+          }}>
           {value?.meaning ? value.meaning : value}
         </Text>
       </TouchableOpacity>
@@ -128,18 +132,20 @@ export default function VocabGameScreen() {
             justifyContent: 'space-between',
           }}>
           <View style={[styles.circle, styles.center]}>
-            <Text style={{fontSize: 20, color: '#000000'}}>{timeCounter}</Text>
+            <Text style={{ fontSize: 20, color: '#000000' }}>
+              {timeCounter}
+            </Text>
           </View>
           <View style={styles.alive}>
             <Icon name="heart" color="red" size={32} />
-            <Text style={{fontSize: 24, color: '#000000'}}>{heart}</Text>
+            <Text style={{ fontSize: 24, color: '#000000' }}>{heart}</Text>
           </View>
           <TouchableOpacity style={styles.center} onPress={onRePlay}>
             <Icon name="rotate-left" color={GREEN} size={32} />
           </TouchableOpacity>
         </View>
         <View style={[styles.bar, styles.center]}>
-          <Text style={{fontSize: 20, color: '#000000'}}>
+          <Text style={{ fontSize: 20, color: '#000000' }}>
             Match words to their meanings!
           </Text>
         </View>
@@ -150,12 +156,12 @@ export default function VocabGameScreen() {
             justifyContent: 'space-around',
             paddingTop: 15,
           }}>
-          <View style={{flexDirection: 'column', rowGap: 15}}>
+          <View style={{ flexDirection: 'column', rowGap: 15 }}>
             {words.map((item, index) =>
               cardRender(`word_${index}`, item, onMatch),
             )}
           </View>
-          <View style={{flexDirection: 'column', rowGap: 15}}>
+          <View style={{ flexDirection: 'column', rowGap: 15 }}>
             {meanings.map((item, index) =>
               cardRender(`mean_${index}`, item, onMatch),
             )}

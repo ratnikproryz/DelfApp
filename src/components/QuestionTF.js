@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View, Button} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View, Button } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {BLACK, BLUE, GREEN} from '../constants/color';
-import {Checkbox} from 'react-native-paper';
+import { BLACK, BLUE, GREEN } from '../constants/color';
+import { Checkbox } from 'react-native-paper';
 export default function QuestionTF(props) {
   const [selectedAnswer, setSelectedAnswer] = useState(
     props.answers.find(el => el.question === props.question_id) === undefined
@@ -33,11 +33,11 @@ export default function QuestionTF(props) {
   return (
     <View style={styles.question}>
       <View style={styles.circle}>
-        <Text style={{fontWeight: 'bold', color: BLACK}}>{props.index}</Text>
+        <Text style={{ fontWeight: 'bold', color: BLACK }}>{props.index}</Text>
       </View>
-      <Text style={{fontWeight: 'bold', color: BLACK}}>{props.question}</Text>
+      <Text style={{ fontWeight: 'bold', color: BLACK }}>{props.question}</Text>
       <View style={styles.checkboxes}>
-        <View style={{flexDirection: 'row'}}>
+        <View style={{ flexDirection: 'row' }}>
           {props.options.map(item => (
             <Checkbox
               key={item._id}

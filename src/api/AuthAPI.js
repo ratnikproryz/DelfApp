@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {BaseURL} from '../constants/Common';
-import {Toast, ALERT_TYPE} from 'react-native-alert-notification';
+import { BaseURL } from '../constants/Common';
+import { Toast, ALERT_TYPE } from 'react-native-alert-notification';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const signUp = async (name, email, password, passwordConfirm) => {

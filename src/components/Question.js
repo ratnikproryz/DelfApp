@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {BLACK, BLUE, GREEN} from '../constants/color';
+import { BLACK, BLUE, GREEN } from '../constants/color';
 
 export default function Question(props) {
   const [selectedAnswer, setSelectedAnswer] = useState(
@@ -58,9 +58,9 @@ export default function Question(props) {
       <View
         style={[
           styles.circle,
-          {backgroundColor: toggleBGColor(selectedAnswer, id, isCorrect)},
+          { backgroundColor: toggleBGColor(selectedAnswer, id, isCorrect) },
         ]}>
-        <Text style={{fontWeight: 'bold'}}>{answerIndex}</Text>
+        <Text style={{ fontWeight: 'bold' }}>{answerIndex}</Text>
       </View>
       <Text
         style={{
@@ -74,9 +74,9 @@ export default function Question(props) {
   );
 
   return (
-    <View style={{paddingBottom: 15}}>
+    <View style={{ paddingBottom: 15 }}>
       <View style={styles.question}>
-        <Text style={{color: '#fff', fontWeight: 'bold', fontSize: 16}}>
+        <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 16 }}>
           {props.question}
         </Text>
       </View>

@@ -1,6 +1,6 @@
 import axios from 'axios';
-import {BaseURL} from '../constants/Common';
-import {Dialog, ALERT_TYPE} from 'react-native-alert-notification';
+import { BaseURL } from '../constants/Common';
+import { Dialog, ALERT_TYPE } from 'react-native-alert-notification';
 
 export const initResult = async (token, id) => {
   // console.log('ResultApi.js:initResult: ', exam_id, ' - ', userID);

@@ -1,8 +1,8 @@
-import React, {useState, useCallback, useEffect} from 'react';
-import {GiftedChat} from 'react-native-gifted-chat';
-import {getMessage} from '../api/ChatGPTAPI';
+import React, { useState, useCallback, useEffect } from 'react';
+import { GiftedChat } from 'react-native-gifted-chat';
+import { getMessage } from '../api/ChatGPTAPI';
 
-export default function ChatGPTScreen({navigation}) {
+export default function ChatGPTScreen({ navigation }) {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Image,
   ScrollView,
@@ -9,13 +9,13 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {GREEN} from '../constants/color';
+import { GREEN } from '../constants/color';
 import WordItem from '../components/WordItem';
-import {getFavorites} from '../api/FavoriteAPI';
-import {useIsFocused} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
+import { getFavorites } from '../api/FavoriteAPI';
+import { useIsFocused } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
-export default function FavoriteScreen({navigation}) {
+export default function FavoriteScreen({ navigation }) {
   const isFocused = useIsFocused();
   const [favorites, setFavorites] = useState([]);
   const token = useSelector(state => state.auth.token);
@@ -53,7 +53,7 @@ export default function FavoriteScreen({navigation}) {
           <Icon name='volume-up' size={20} color={'#fff'}></Icon>
         </TouchableHighlight>
       </View> */}
-      <View style={{height: '90%'}}>
+      <View style={{ height: '90%' }}>
         <ScrollView>
           {favorites?.map(item => (
             <WordItem key={item._id} item={item} onPress={navigatehandler} />
@@ -72,7 +72,7 @@ export default function FavoriteScreen({navigation}) {
         <TouchableOpacity
           style={[styles.playButton, styles.center]}
           onPress={playGamerHandler}>
-          <Text style={{color: '#ffffff', fontSize: 16, fontWeight: '700'}}>
+          <Text style={{ color: '#ffffff', fontSize: 16, fontWeight: '700' }}>
             PLAY A VOCAB GAME
           </Text>
         </TouchableOpacity>

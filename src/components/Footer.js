@@ -1,13 +1,13 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {BLACK, BLUE} from '../constants/color';
+import { BLACK, BLUE } from '../constants/color';
 
 export default function Footer(props) {
   const size = 24,
     color = BLACK;
   return (
-    <View style={{flex: 1, justifyContent: 'flex-end'}}>
+    <View style={{ flex: 1, justifyContent: 'flex-end' }}>
       <View style={styles.section}>
         <TouchableOpacity onPress={props.onBack}>
           <Icon name="chevron-left" size={size} color={color} />

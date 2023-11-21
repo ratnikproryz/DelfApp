@@ -1,9 +1,9 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {ScreenHeight, ScreenWidth} from '../Common';
-import {GREEN, LIGHT_GREY} from '../constants/color';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScreenHeight, ScreenWidth } from '../Common';
+import { GREEN, LIGHT_GREY } from '../constants/color';
 import InputComponent from '../components/InputComponent';
-import {sendEmail} from '../api/AuthAPI';
+import { sendEmail } from '../api/AuthAPI';
 
 export default function ForgotPassordScreen() {
   const [email, setEmail] = useState('');

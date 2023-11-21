@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {getDicExamples} from '../api/TransAPI';
-import {removeFavorite, saveFavorite} from '../api/FavoriteAPI';
-import {useSelector} from 'react-redux';
+import { getDicExamples } from '../api/TransAPI';
+import { removeFavorite, saveFavorite } from '../api/FavoriteAPI';
+import { useSelector } from 'react-redux';
 
-export default function WordScreen({navigation, route}) {
+export default function WordScreen({ navigation, route }) {
   const params = route.params;
   const [isFavor, setIsFavor] = useState(params?.isFavorite ? true : false);
   const [examples, setExamples] = useState([]);
@@ -57,7 +57,7 @@ export default function WordScreen({navigation, route}) {
           justifyContent: 'space-between',
           paddingTop: 10,
         }}>
-        <Text style={{color: '#000000', fontWeight: 'bold', fontSize: 20}}>
+        <Text style={{ color: '#000000', fontWeight: 'bold', fontSize: 20 }}>
           {params.word}
           <Text
             style={{
@@ -71,13 +71,13 @@ export default function WordScreen({navigation, route}) {
           </Text>
         </Text>
         <TouchableOpacity
-          style={{justifyContent: 'center'}}
+          style={{ justifyContent: 'center' }}
           onPress={toggleFavorHandler}>
           {isFavor && <Icon name="heart" size={20} color="red" />}
           {!isFavor && <Icon name="heart-o" size={20} color="#000000" />}
         </TouchableOpacity>
       </View>
-      <Text style={{color: '#BC44E6', fontSize: 16}}>
+      <Text style={{ color: '#BC44E6', fontSize: 16 }}>
         Meaning: {params.meaning}
       </Text>
       <Text
@@ -90,10 +90,10 @@ export default function WordScreen({navigation, route}) {
       </Text>
       {examples.map((element, index) => (
         <View key={index}>
-          <Text style={{color: '#0B5DAC', fontSize: 16}}>
+          <Text style={{ color: '#0B5DAC', fontSize: 16 }}>
             {element.sourceEx}
           </Text>
-          <Text style={{color: '#000000', fontSize: 16, fontStyle: 'italic'}}>
+          <Text style={{ color: '#000000', fontSize: 16, fontStyle: 'italic' }}>
             <Icon name="arrow-right" size={16} />
             {element.targetEx}
           </Text>

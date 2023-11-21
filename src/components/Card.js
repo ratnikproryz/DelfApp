@@ -15,8 +15,8 @@ export default function Card(props) {
       <LinearGradient
         style={[styles.body, styles.shadowProp]}
         colors={[props.firstColor, props.secondColor]}
-        start={{x: 1, y: 0}}
-        end={{x: 0, y: 1}}>
+        start={{ x: 1, y: 0 }}
+        end={{ x: 0, y: 1 }}>
         <Image source={require('../assets/icons/mini-test.png')} />
         <Text>{props.title}</Text>
       </LinearGradient>

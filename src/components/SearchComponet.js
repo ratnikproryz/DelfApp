@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, TextInput, TouchableOpacity} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, TextInput, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {ScreenHeight, ScreenWidth} from '../Common';
+import { ScreenHeight, ScreenWidth } from '../Common';
 
 export default function SearchComponet(props) {
   return (

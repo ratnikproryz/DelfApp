@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {ScreenHeight, ScreenWidth} from '../Common';
-import {GREEN, LIGHT_GREY} from '../constants/color';
+import React, { useState } from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScreenHeight, ScreenWidth } from '../Common';
+import { GREEN, LIGHT_GREY } from '../constants/color';
 import InputComponent from '../components/InputComponent';
-import {AlertNotificationRoot} from 'react-native-alert-notification';
-import {changePassword} from '../api/AuthAPI';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
+import { changePassword } from '../api/AuthAPI';
 
 export default function ChangePasswordScreen() {
   const [currentPassword, setCurrentPassword] = useState('');
@@ -34,7 +34,7 @@ export default function ChangePasswordScreen() {
   return (
     <AlertNotificationRoot
       theme="light"
-      colors={[{card: '#F0F0F0'}, {card: '#000', label: '#fff'}]}>
+      colors={[{ card: '#F0F0F0' }, { card: '#000', label: '#fff' }]}>
       <View style={styles.container}>
         <View style={styles.centerContainer}>
           <InputComponent

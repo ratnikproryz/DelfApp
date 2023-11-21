@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -6,14 +6,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {GREEN} from '../constants/color';
+import { GREEN } from '../constants/color';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {useEffect} from 'react';
-import {getResults} from '../api/ResultApi';
-import {useSelector} from 'react-redux';
-import {useIsFocused} from '@react-navigation/native';
+import { useEffect } from 'react';
+import { getResults } from '../api/ResultApi';
+import { useSelector } from 'react-redux';
+import { useIsFocused } from '@react-navigation/native';
 
-export default function ResultScreen({navigation}) {
+export default function ResultScreen({ navigation }) {
   const isFocused = useIsFocused();
   const [results, setResults] = useState([]);
   const user = useSelector(state => state.auth.user);
@@ -38,7 +38,10 @@ export default function ResultScreen({navigation}) {
   const onReview = (resultID, examID) => {
     console.log('result id: ' + resultID);
     console.log('exam id: ' + examID);
-    navigation.navigate('FullTestReview', {examID: examID, resultID: resultID});
+    navigation.navigate('FullTestReview', {
+      examID: examID,
+      resultID: resultID,
+    });
   };
 
   return (
@@ -54,11 +57,11 @@ export default function ResultScreen({navigation}) {
         </View>
       </View>
       <View style={styles.table}>
-        <View style={[styles.row, {backgroundColor: GREEN}]}>
-          <Text style={[styles.header, {width: '15%'}]}> ID</Text>
-          <Text style={[styles.header, {width: '45%'}]}>Test</Text>
-          <Text style={[styles.header, {width: '25%'}]}>Type</Text>
-          <Text style={[styles.header, {width: '15%'}]}>Point</Text>
+        <View style={[styles.row, { backgroundColor: GREEN }]}>
+          <Text style={[styles.header, { width: '15%' }]}> ID</Text>
+          <Text style={[styles.header, { width: '45%' }]}>Test</Text>
+          <Text style={[styles.header, { width: '25%' }]}>Type</Text>
+          <Text style={[styles.header, { width: '15%' }]}>Point</Text>
         </View>
         <ScrollView>
           {results?.data?.map((item, index) => (
@@ -66,14 +69,16 @@ export default function ResultScreen({navigation}) {
               key={item._id}
               style={styles.row}
               onPress={() => onReview(item._id, item.examination._id)}>
-              <Text style={[styles.text, {width: '15%'}]}> {index + 1}</Text>
-              <Text style={[styles.text, {width: '45%'}]}>
+              <Text style={[styles.text, { width: '15%' }]}> {index + 1}</Text>
+              <Text style={[styles.text, { width: '45%' }]}>
                 {item.examination.name}
               </Text>
-              <Text style={[styles.text, {width: '25%'}]}>
+              <Text style={[styles.text, { width: '25%' }]}>
                 {item.examination.type}
               </Text>
-              <Text style={[styles.text, {width: '15%'}]}>{item.score}/75</Text>
+              <Text style={[styles.text, { width: '15%' }]}>
+                {item.score}/75
+              </Text>
             </TouchableOpacity>
           ))}
         </ScrollView>

@@ -1,18 +1,18 @@
-import React, {useEffect} from 'react';
-import {useState} from 'react';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
-import {getDicExamples, lookUp} from '../api/TransAPI';
+import React, { useEffect } from 'react';
+import { useState } from 'react';
+import { StyleSheet, Text, View, ScrollView } from 'react-native';
+import { getDicExamples, lookUp } from '../api/TransAPI';
 import Card from '../components/Card';
 import SearchComponet from '../components/SearchComponet';
-import {GREY} from '../constants/color';
+import { GREY } from '../constants/color';
 import {
   AlertNotificationRoot,
   Toast,
   ALERT_TYPE,
 } from 'react-native-alert-notification';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
-export default function HomeScreen({navigation}) {
+export default function HomeScreen({ navigation }) {
   const isAuth = useSelector(state => state.auth.isAuth);
   const [word, setWord] = useState('');
   useEffect(() => {
@@ -48,15 +48,15 @@ export default function HomeScreen({navigation}) {
   };
 
   const fullTestClickHandler = () => {
-    navigation.navigate('ListTest', {type: 'Full Test'});
+    navigation.navigate('ListTest', { type: 'Full Test' });
   };
   const miniTestClickHandler = () => {
-    navigation.navigate('ListTest', {type: 'Mini Test'});
+    navigation.navigate('ListTest', { type: 'Mini Test' });
   };
   return (
     <AlertNotificationRoot
       theme="light"
-      colors={[{card: '#F0F0F0'}, {card: '#000', label: '#fff'}]}>
+      colors={[{ card: '#F0F0F0' }, { card: '#000', label: '#fff' }]}>
       <ScrollView style={style.body}>
         <View style={style.container}>
           {/* <Text style={style.title}>Delf Practice</Text>

@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {AUTO_LOGIN, GET_AUTH, LOGIN, LOGOUT} from '../actions/AuthAction';
+import { AUTO_LOGIN, GET_AUTH, LOGIN, LOGOUT } from '../actions/AuthAction';
 
 const initialState = {
   user: '',

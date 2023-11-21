@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
-import {autoLogin, getAuth} from '../redux/actions/AuthAction';
+import React, { useEffect } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { autoLogin, getAuth } from '../redux/actions/AuthAction';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NativeStackNav from './NativeStackNav';
 

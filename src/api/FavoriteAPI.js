@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {BaseURL} from '../constants/Common';
+import { BaseURL } from '../constants/Common';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getFavorites = async token => {

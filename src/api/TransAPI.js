@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {lookOption, dicExOption} from '../constants/HeaderOption';
+import { lookOption, dicExOption } from '../constants/HeaderOption';
 
 export const lookUp = async word => {
   let options = {

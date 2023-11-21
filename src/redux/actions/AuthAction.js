@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {BaseURL} from '../../constants/Common';
+import { BaseURL } from '../../constants/Common';
 
 export const LOGIN = 'LOGIN';
 export const LOGOUT = 'LOGOUT';

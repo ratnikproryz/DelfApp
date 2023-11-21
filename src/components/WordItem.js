@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
   StyleSheet,
@@ -8,11 +8,11 @@ import {
   View,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {BLACK, GREEN} from '../constants/color';
-import {getFavorites, removeFavorite, saveFavorite} from '../api/FavoriteAPI';
-import {useSelector} from 'react-redux';
+import { BLACK, GREEN } from '../constants/color';
+import { getFavorites, removeFavorite, saveFavorite } from '../api/FavoriteAPI';
+import { useSelector } from 'react-redux';
 import Sound from 'react-native-sound';
-import {useIsFocused} from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function WordItem(props) {
   const isFocused = useIsFocused();
