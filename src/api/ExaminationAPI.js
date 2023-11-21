@@ -18,15 +18,12 @@ export const getListExams = async type => {
 
 export const getExam = async id => {
   try {
-    const response = await axios.get(
-      `${BaseURL}/examinations/${id}`,
-      {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
+    const response = await axios.get(`${BaseURL}/examinations/${id}`, {
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
       },
-    );
+    });
     console.log('ExaminationAPI.js:getExam: ', response.data);
     return response.data;
   } catch (error) {

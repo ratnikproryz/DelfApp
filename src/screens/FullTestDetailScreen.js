@@ -1,19 +1,19 @@
 import React from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {Button, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Part1 from '../components/Part1';
 import Part2_1 from '../components/Part2_1';
 import Part2_23 from '../components/Part2_23';
 import Part3 from '../components/Part3';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { getExam } from '../api/ExaminationAPI';
-import { getResult, initResult, submitAnswers } from '../api/ResultApi';
-import { AlertNotificationRoot } from 'react-native-alert-notification';
-import { useSelector } from 'react-redux';
+import {useState} from 'react';
+import {useEffect} from 'react';
+import {getExam} from '../api/ExaminationAPI';
+import {getResult, initResult, submitAnswers} from '../api/ResultApi';
+import {AlertNotificationRoot} from 'react-native-alert-notification';
+import {useSelector} from 'react-redux';
 
-export default function FullTestDetailScreen({ navigation, route }) {
+export default function FullTestDetailScreen({navigation, route}) {
   const [index, setIndex] = useState(1);
   const [title, setTitle] = useState([
     'Listening 1',
@@ -55,7 +55,7 @@ export default function FullTestDetailScreen({ navigation, route }) {
     } else {
       setAnswers([
         ...answers,
-        { result: resultID, question: question_id, answer: answer_id },
+        {result: resultID, question: question_id, answer: answer_id},
       ]);
     }
     console.log(answers);
@@ -69,9 +69,9 @@ export default function FullTestDetailScreen({ navigation, route }) {
     navigation.goBack();
   };
 
-  const getExerciseByType = (type) => {
-    return data?.find(exercise => exercise.type === type)
-  }
+  const getExerciseByType = type => {
+    return data?.find(exercise => exercise.type === type);
+  };
 
   const render = index => {
     switch (index) {

@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import React, {useEffect} from 'react';
+import {StyleSheet, View} from 'react-native';
 import TestCard from '../components/TestCard';
-import { useState } from 'react';
-import { getListExams } from '../api/ExaminationAPI';
-import { initResult } from '../api/ResultApi';
-import { useSelector } from 'react-redux';
+import {useState} from 'react';
+import {getListExams} from '../api/ExaminationAPI';
+import {initResult} from '../api/ResultApi';
+import {useSelector} from 'react-redux';
 
-export default function ListTestScreen({ navigation, route }) {
+export default function ListTestScreen({navigation, route}) {
   const [exams, setExams] = useState([]);
   const user = useSelector(state => state.auth.user);
   const token = useSelector(state => state.auth.token);

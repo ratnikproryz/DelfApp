@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, View, TextInput} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { ScreenHeight, ScreenWidth } from '../Common';
+import {ScreenHeight, ScreenWidth} from '../Common';
 
 export default function InputComponent(props) {
   const [passwordVisibility, setPasswordVisibility] = useState(false);
@@ -28,7 +28,7 @@ export default function InputComponent(props) {
           <Icon
             name={eyeIcon}
             onPress={() => showPassword()}
-            style={Object.assign({ paddingRight: 10 }, styles.icon)}
+            style={Object.assign({paddingRight: 10}, styles.icon)}
             size={16}
             color="#7E7E7E"
           />
@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 1,
     backgroundColor: 'white',
-
   },
   icon: {
     marginLeft: 10,
