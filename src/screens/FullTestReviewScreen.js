@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import Header from '../components/Header';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import Footer from '../components/Footer';
 import Part1 from '../components/Part1';
 import Part2_1 from '../components/Part2_1';
@@ -9,11 +8,11 @@ import Part3 from '../components/Part3';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { getExam } from '../api/ExaminationAPI';
-import { getResult, initResult, submitAnswers } from '../api/ResultApi';
-import { AlertNotificationRoot } from 'react-native-alert-notification';
-import { useSelector } from 'react-redux';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import { BLACK } from '../constants/color';
+import { getAnswersSubmitted } from '../api/ResultApi';
 
-export default function FullTestDetailScreen({ navigation, route }) {
+export default function FullTestReviewScreen({ navigation, route }) {
   const [index, setIndex] = useState(1);
   const [title, setTitle] = useState([
     'Listening 1',
@@ -24,49 +23,24 @@ export default function FullTestDetailScreen({ navigation, route }) {
     'Reading 3',
     'Writing',
   ]);
-  const [data, setData] = useState([]);
+  const [data, setData] = useState();
   const [answers, setAnswers] = useState([]);
-  const [resultID, setResultID] = useState(route.params.result_id);
-  const [isOver, setIsOver] = useState(false);
-  const token = useSelector(state => state.auth.token);
+  const [mode, setMode] = useState('Review');
 
   useEffect(() => {
     getExercises();
+    getAnswers();
   }, []);
 
-  useEffect(() => {
-    if (isOver) {
-      //auto submit answer when time over
-      submit();
-      console.log('The time is over!');
-    }
-  }, [isOver]);
-
   const getExercises = async () => {
-    const response = await getExam(route.params.exam.id);
-    console.log('FullTestDetailScreen.js:getExercises: ', response.data[0]);
+    const response = await getExam(route.params.examID);
     setData(response.data.exercises);
   };
-  const selectedAnswer = (question_id, answer_id) => {
-    const index = answers.findIndex(el => el.question === question_id);
-    if (index >= 0) {
-      answers[index].answer = answer_id;
-      setAnswers(answers);
-    } else {
-      setAnswers([
-        ...answers,
-        { result: resultID, question: question_id, answer: answer_id },
-      ]);
-    }
-    console.log(answers);
-  };
+  const selectedAnswer = (question_id, answer_id) => {};
 
-  const submit = async () => {
-    await submitAnswers(answers);
-    await getResult(resultID, successCallBack);
-  };
-  const successCallBack = () => {
-    navigation.goBack();
+  const getAnswers = async () => {
+    const response = await getAnswersSubmitted(route.params.resultID);
+    setAnswers(response.data);
   };
 
   const getExerciseByType = type => {
@@ -79,6 +53,7 @@ export default function FullTestDetailScreen({ navigation, route }) {
         return (
           <Part1
             data={getExerciseByType('Listening 1')}
+            mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
           />
@@ -87,6 +62,7 @@ export default function FullTestDetailScreen({ navigation, route }) {
         return (
           <Part1
             data={getExerciseByType('Listening 2')}
+            mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
           />
@@ -95,6 +71,7 @@ export default function FullTestDetailScreen({ navigation, route }) {
         return (
           <Part1
             data={getExerciseByType('Listening 3')}
+            mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
           />
@@ -103,6 +80,7 @@ export default function FullTestDetailScreen({ navigation, route }) {
         return (
           <Part2_1
             data={getExerciseByType('Reading 1')}
+            mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
           />
@@ -111,6 +89,7 @@ export default function FullTestDetailScreen({ navigation, route }) {
         return (
           <Part2_23
             data={getExerciseByType('Reading 2')}
+            mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
           />
@@ -119,6 +98,7 @@ export default function FullTestDetailScreen({ navigation, route }) {
         return (
           <Part2_23
             data={getExerciseByType('Reading 3')}
+            mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
           />
@@ -127,6 +107,7 @@ export default function FullTestDetailScreen({ navigation, route }) {
         return (
           <Part3
             data={getExerciseByType('Writing')}
+            mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
           />
@@ -136,6 +117,7 @@ export default function FullTestDetailScreen({ navigation, route }) {
         return (
           <Part1
             data={getExerciseByType('Listening 1')}
+            mode={mode}
             answers={answers}
             selectedAnswer={selectedAnswer}
           />
@@ -144,22 +126,21 @@ export default function FullTestDetailScreen({ navigation, route }) {
   };
 
   return (
-    <AlertNotificationRoot>
-      <View style={styles.body}>
-        <Header
-          title={title[index - 1]}
-          navigation={navigation}
-          submit={submit}
-          timeLimit={route.params.exam.timeLimit}
-          setIsOver={setIsOver}
-        />
-        {data ? render(index) : null}
-        <Footer
-          onNext={() => setIndex(index => index + 1)}
-          onBack={() => setIndex(index => index - 1)}
-        />
+    <View style={styles.body}>
+      <View style={styles.section}>
+        <TouchableOpacity style={{}} onPress={() => navigation.goBack()}>
+          <Icon name="chevron-left" size={24} color={BLACK} />
+        </TouchableOpacity>
+        <Text style={{ color: BLACK, fontSize: 24, paddingLeft: 30 }}>
+          {title[index - 1]}
+        </Text>
       </View>
-    </AlertNotificationRoot>
+      {data ? render(index) : null}
+      <Footer
+        onNext={() => setIndex(index => index + 1)}
+        onBack={() => setIndex(index => index - 1)}
+      />
+    </View>
   );
 }
 
@@ -167,5 +148,14 @@ const styles = StyleSheet.create({
   body: {
     flex: 1,
     backgroundColor: '#ffffff',
+  },
+  section: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    shadowColor: '#000',
+    elevation: 5,
+    height: 50,
+    paddingHorizontal: 20,
   },
 });

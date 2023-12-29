@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -10,31 +10,68 @@ import {
   StatusBar,
 } from 'react-native';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { signUp } from '../api/AuthAPI';
 import { ScreenHeight, ScreenWidth } from '../Common';
 import InputComponent from '../components/InputComponent';
 import { GREEN, GREY, LIGHT_GREY } from '../constants/color';
-import { login } from '../redux/actions/AuthAction';
+import { login, loginGG } from '../redux/actions/AuthAction';
+import { GoogleSignin } from '@react-native-community/google-signin';
+import { WEB_CLIENT_ID } from '../constants/key';
+import auth from '@react-native-firebase/auth';
 
-export default function LoginScreen() {
-  const dispatch = useDispatch()
+export default function LoginScreen({ navigation }) {
+  const isAuth = useSelector(state => state.auth.isAuth);
+  const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = useState(false);
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [passwordConfirm, setPassordConfirm] = useState("")
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPassordConfirm] = useState('');
+
+  useEffect(() => {
+    if (isAuth) {
+      navigation.navigate('Home');
+    }
+    GoogleSignin.configure({
+      webClientId: WEB_CLIENT_ID,
+      offlineAccess: true,
+    });
+  }, [isAuth]);
 
   const loginHandler = () => {
-    dispatch(login(email, password))
-  }
+    console.log('Login...');
+    dispatch(login(email, password));
+  };
   const signUpHandler = () => {
-    signUp(name, email, password, passwordConfirm)
-  }
+    signUp(name, email, password, passwordConfirm);
+  };
+  const forgotHandler = () => {
+    navigation.navigate('ForgotPW');
+  };
+  const loginGGHandler = async () => {
+    try {
+      // await GoogleSignin.revokeAccess();
+      // await GoogleSignin.signOut();
+      // auth()
+      //   .signOut()
+
+      await GoogleSignin.hasPlayServices();
+      const { accessToken, idToken } = await GoogleSignin.signIn();
+      console.log('accessToken: ' + accessToken);
+      console.log('idToken: ' + idToken);
+      const credential = auth.GoogleAuthProvider.credential(
+        idToken,
+        accessToken,
+      );
+      await auth().signInWithCredential(credential);
+      dispatch(loginGG(idToken));
+    } catch (error) {}
+  };
 
   function googleButton() {
     return (
-      <TouchableOpacity style={styles.googleButton}>
+      <TouchableOpacity style={styles.googleButton} onPress={loginGGHandler}>
         <Image
           source={require('../assets/icons/google.png')}
           style={styles.googleIcon}
@@ -48,10 +85,21 @@ export default function LoginScreen() {
     return (
       <View style={styles.loginContainer}>
         <Text style={styles.loginLabel}>Login</Text>
-        <InputComponent icon="at" value={email} placeholder="Email" onChangeText={setEmail} />
-        <InputComponent icon="lock" value={password} placeholder="Password" isPassword={true} onChangeText={setPassword} />
-        <TouchableOpacity>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+        <InputComponent
+          icon="at"
+          value={email}
+          placeholder="Email"
+          onChangeText={setEmail}
+        />
+        <InputComponent
+          icon="lock"
+          value={password}
+          placeholder="Password"
+          isPassword={true}
+          onChangeText={setPassword}
+        />
+        <TouchableOpacity onPress={forgotHandler}>
+          <Text style={styles.forgotPasswordText}>Forgot Password? </Text>
         </TouchableOpacity>
       </View>
     );
@@ -61,9 +109,25 @@ export default function LoginScreen() {
     return (
       <View style={styles.loginContainer}>
         <Text style={styles.loginLabel}>Sign up</Text>
-        <InputComponent icon="at" value={email} placeholder="Email" onChangeText={setEmail} />
-        <InputComponent icon="at" value={name} placeholder="Username" onChangeText={setName} />
-        <InputComponent icon="lock" value={password} placeholder="Password" isPassword={true} onChangeText={setPassword} />
+        <InputComponent
+          icon="at"
+          value={email}
+          placeholder="Email"
+          onChangeText={setEmail}
+        />
+        <InputComponent
+          icon="at"
+          value={name}
+          placeholder="Username"
+          onChangeText={setName}
+        />
+        <InputComponent
+          icon="lock"
+          value={password}
+          placeholder="Password"
+          isPassword={true}
+          onChangeText={setPassword}
+        />
         <InputComponent
           icon="lock"
           value={passwordConfirm}
@@ -75,25 +139,33 @@ export default function LoginScreen() {
     );
   }
   return (
-    <AlertNotificationRoot theme='light' colors={[{ 'card': '#F0F0F0', }, { 'card': '#000', 'label': '#fff' }]}>
+    <AlertNotificationRoot
+      theme="light"
+      colors={[{ card: '#F0F0F0' }, { card: '#000', label: '#fff' }]}>
       <View style={styles.container}>
         <StatusBar backgroundColor="#FFF" barStyle="dark-content" />
         <View style={styles.logoSection}>
-          <Image source={require('../assets/images/login.png')} style={styles.loginImage}
+          <Image
+            source={require('../assets/images/login.png')}
+            style={styles.loginImage}
           />
         </View>
         {!isSignUp ? (
           <View style={styles.centerContainer}>
             {loginForm()}
-            <View style={{ flex: 1.5, justifyContent: 'space-around', }}>
-              <TouchableOpacity style={styles.button} onPress={() => loginHandler()}>
+            <View style={{ flex: 1.5, justifyContent: 'space-around' }}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => loginHandler()}>
                 <Text style={styles.loginText}>Login</Text>
               </TouchableOpacity>
               <Text style={{ color: GREY, alignSelf: 'center' }}>OR</Text>
               {googleButton()}
             </View>
-            <View style={{ flex: 1, justifyContent: 'center', }}>
-              <TouchableOpacity style={styles.text} onPress={() => setIsSignUp(!isSignUp)}>
+            <View style={{ flex: 1, justifyContent: 'center' }}>
+              <TouchableOpacity
+                style={styles.text}
+                onPress={() => setIsSignUp(!isSignUp)}>
                 <Text>Don't have an account?</Text>
                 <Text style={{ color: GREEN, marginLeft: 3 }}>Sign up</Text>
               </TouchableOpacity>
@@ -102,15 +174,19 @@ export default function LoginScreen() {
         ) : (
           <View style={styles.centerContainer}>
             {signUpForm()}
-            <View style={{ flex: 1.5, justifyContent: 'space-around', }}>
-              <TouchableOpacity style={styles.button} onPress={() => signUpHandler()}>
+            <View style={{ flex: 1.5, justifyContent: 'space-around' }}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => signUpHandler()}>
                 <Text style={styles.loginText}>Sign up</Text>
               </TouchableOpacity>
               <Text style={{ color: GREY, alignSelf: 'center' }}>OR</Text>
               {googleButton()}
             </View>
-            <View style={{ flex: 1, justifyContent: 'center', }}>
-              <TouchableOpacity style={styles.text} onPress={() => setIsSignUp(!isSignUp)}>
+            <View style={{ flex: 1, justifyContent: 'center' }}>
+              <TouchableOpacity
+                style={styles.text}
+                onPress={() => setIsSignUp(!isSignUp)}>
                 <Text>Already have an account?</Text>
                 <Text style={{ color: GREEN, marginLeft: 3 }}>Login</Text>
               </TouchableOpacity>
@@ -119,7 +195,6 @@ export default function LoginScreen() {
         )}
       </View>
     </AlertNotificationRoot>
-
   );
 }
 const styles = StyleSheet.create({

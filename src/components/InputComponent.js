@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     elevation: 1,
     backgroundColor: 'white',
-
   },
   icon: {
     marginLeft: 10,
