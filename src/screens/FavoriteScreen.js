@@ -82,8 +82,7 @@ export default function FavoriteScreen({ navigation }) {
 }
 const styles = StyleSheet.create({
   body: {
-    paddingLeft: 30,
-    paddingRight: 30,
+    padding: 30,
     backgroundColor: 'white',
     height: '100%',
   },

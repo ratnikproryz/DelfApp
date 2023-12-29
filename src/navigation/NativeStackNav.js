@@ -16,6 +16,7 @@ import ChangePasswordScreen from '../screens/ChangePasswordScreen';
 import ForgotPassordScreen from '../screens/ForgotPassordScreen';
 import LoginScreen from '../screens/LoginScreen';
 import FullTestReviewScreen from '../screens/FullTestReviewScreen';
+import VocabularyDetail from '../screens/VocabularyDetail';
 
 const Stack = createNativeStackNavigator();
 export default function NativeStackNav() {
@@ -29,6 +30,7 @@ export default function NativeStackNav() {
       <Stack.Screen name="HomeSt" component={HomeScreen} />
       <Stack.Screen name="Favorite" component={FavoriteScreen} />
       <Stack.Screen name="Vocabulary" component={VocabularyScreen} />
+      <Stack.Screen name="VocabularyDetail" component={VocabularyDetail} />
       <Stack.Screen name="Result" component={ResultScreen} />
       <Stack.Screen name="ChatGPT" component={ChatGPTScreen} />
       <Stack.Screen name="Profile" component={ProfileScreen} />

@@ -27,15 +27,15 @@ export default function VocabularyScreen({ navigation }) {
     setFavorites(response.data);
   };
 
-  const navigatehandler = item => {
+  const navigateHandler = item => {
     // navigation.navigate('Word', {
     //   word: item.word,
-    //             type: item.partOfSpeech,
-    //             meaning: item.definition,
-    //             phonetic: item?.phonetic,
+    //   type: item.partOfSpeech,
+    //   meaning: item.definition,
+    //   phonetic: item?.phonetic,
     //   isFavorite: favorites,
     // });
-    alert('Maintaining!');
+    navigation.navigate('VocabularyDetail', { word: item });
   };
 
   return (
@@ -51,7 +51,7 @@ export default function VocabularyScreen({ navigation }) {
             isFavorite: favorites.some(el => el.word === item.word),
             _id: favorites.find(el => el.word === item.word),
           }}
-          onPress={navigatehandler}
+          onPress={() => navigateHandler(item)}
         />
       ))}
     </ScrollView>
@@ -60,7 +60,7 @@ export default function VocabularyScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   body: {
-    paddingHorizontal: 30,
+    padding: 30,
     backgroundColor: 'white',
   },
 });

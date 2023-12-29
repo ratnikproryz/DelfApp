@@ -34,7 +34,7 @@ export default function ProfileScreen({ navigation }) {
 
   return (
     <View style={{ backgroundColor: '#fff', flex: 1 }}>
-      <View style={[styles.section, styles.center]}>
+      <View style={[styles.section, styles.center, { paddingTop: '10%' }]}>
         <Avatar.Image
           source={
             user?.avatar
@@ -55,6 +55,11 @@ export default function ProfileScreen({ navigation }) {
         />
       </View>
       <View style={styles.section}>
+        <TouchableOpacity>
+          <ProfileInfoItem icon="language" title="Language" value="English" />
+        </TouchableOpacity>
+      </View>
+      <View style={styles.section}>
         <TouchableOpacity
           onPress={() => {
             navigation.navigate('ChangePW');
@@ -62,18 +67,13 @@ export default function ProfileScreen({ navigation }) {
           style={styles.item}>
           <>
             <Icon name="lock" color={GREEN} size={32} />
-            <Text style={{ fontWeight: 'bold', fontSize: 16, paddingLeft: 15 }}>
-              {' '}
-              Change password
-            </Text>
+            <Text style={styles.label}>Change password</Text>
           </>
         </TouchableOpacity>
         <TouchableOpacity onPress={logoutHandler} style={styles.item}>
           <>
             <Icon name="sign-out" color={GREEN} size={32} />
-            <Text style={{ fontWeight: 'bold', fontSize: 16, paddingLeft: 15 }}>
-              Log out
-            </Text>
+            <Text style={styles.label}>Log out</Text>
           </>
         </TouchableOpacity>
       </View>
@@ -109,5 +109,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingLeft: 30,
     paddingTop: 15,
+  },
+  label: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    paddingLeft: 15,
   },
 });
